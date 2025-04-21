@@ -1,0 +1,270 @@
+terraform {
+  required_providers {
+    kubernetes = {
+        source = "hashicorp/kubernetes"
+    }
+    helm = {
+        source = "hashicorp/helm"
+    }
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
+resource "kubernetes_namespace_v1" "namespace" {
+  metadata {
+    name = "atlantis-system"
+  }
+}
+
+resource "kubernetes_cluster_role_binding_v1" "atlantis-admin" {
+  metadata {
+    name = "atlantis-cluster-admin"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "runatlantis"
+    namespace = "atlantis-system"
+  }
+}
+
+data "aws_ssm_parameter" "atlantis-key" {
+  name = "/runatlantis/key"
+}
+
+data "aws_ssm_parameter" "atlantis-secret" {
+  name = "/runatlantis/webhook-secret"
+}
+
+resource "aws_iam_user" "atlantis" {
+  path = "/system/"
+  name = "atlantis"
+}
+
+resource "aws_iam_user_policy" "atlantis" {
+  name = "atlantis"
+  user = aws_iam_user.atlantis.name
+  policy = jsonencode({
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "GrantAtlantisS3Access",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:Get*",
+        "s3:ListBucket",
+        "s3:DeleteObject",
+      ],
+      "Resource": [
+        "arn:aws:s3:::tfstate.billv.ca",
+        "arn:aws:s3:::tfstate.billv.ca/*",
+        "arn:aws:s3:::longhorn-backups.billv.ca",
+        "arn:aws:s3:::longhorn-backups.billv.ca/*"
+      ]
+    },
+    {
+      "Sid": "GrantAtlantisSSMAccess",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter"
+      ],
+      "Resource": [
+        "arn:aws:ssm:us-east-1:398183381961:parameter/runatlantis/webhook-secret",
+        "arn:aws:ssm:us-east-1:398183381961:parameter/zoho-smtp-creds",
+        "arn:aws:ssm:us-east-1:398183381961:parameter/runatlantis/key"
+      ]
+    },
+    {
+      "Sid": "GrantAtlantisIAMAccess",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetUser",
+        "iam:GetUserPolicy",
+        "iam:ListAccessKeys"
+      ],
+      "Resource": [
+        "arn:aws:iam::398183381961:user/system/*"
+      ]
+    }
+  ]})
+}
+
+resource "aws_iam_access_key" "atlantis" {
+  user = aws_iam_user.atlantis.name
+}
+
+resource "kubernetes_secret_v1" "authentik_api_key" {
+  metadata {
+    name = "authentik-api-key"
+    namespace = kubernetes_namespace_v1.namespace.metadata[0].name
+  }
+
+  data = {
+    authentik_api_key = var.authentik_api_key
+  }
+}
+
+resource "helm_release" "atlantis" {
+  name = "runatlantis"
+  repository = "https://runatlantis.github.io/helm-charts"
+  chart = "atlantis"
+  version = "5.17.1"
+  namespace = kubernetes_namespace_v1.namespace.metadata[0].name
+  create_namespace = false
+
+
+  set {
+    name = "extraArgs[0]"
+    value = "--automerge"
+  }
+
+  set {
+    name = "environment.ATLANTIS_GH_ORG"
+    value = "billv-ca"
+  }
+
+  set {
+    name = "environment.ATLANTIS_GH_TEAM_ALLOWLIST"
+    value = "admins:plan\\, admins:apply\\, admins:state\\, admins:import\\, admins:unlock\\, admins:approve_policies"
+  }
+
+  set {
+    name = "environmentSecrets[0].name"
+    value = "TF_VAR_authentik_api_key"
+  }
+
+  set {
+    name = "environmentSecrets[0].secretKeyRef.name"
+    value = "authentik-api-key"
+  }
+
+  set {
+    name = "environmentSecrets[0].secretKeyRef.key"
+    value = "authentik_api_key"
+  }
+
+  set {
+    name = "atlantisUrl"
+    value = "https://atlantis.billv.ca"
+  }
+
+# Used for initial setup of github app
+  # set {
+  #   name = "github.user"
+  #   value = "fake"
+  # }
+
+  # set {
+  #   name = "github.secret"
+  #   value = "fake"
+  # }
+
+  # set {
+  #   name = "github.token"
+  #   value = "fake"
+  # }
+
+  set {
+    name = "githubApp.id"
+    value = "1224527"
+  }
+
+  set_sensitive {
+    name = "githubApp.key"
+    value = data.aws_ssm_parameter.atlantis-key.value
+  }
+
+  set_sensitive {
+    name = "githubApp.secret"
+    value = data.aws_ssm_parameter.atlantis-secret.value
+  }
+
+  set {
+    name = "volumeClaim.storageClassName"
+    value = "longhorn"
+  }
+
+  set {
+    name = "orgAllowlist"
+    value = "github.com/billv-ca/homelab-atlantis*"
+  }
+
+  set_sensitive {
+    name = "aws.credentials"
+    
+    value = <<EOF
+[default]
+aws_access_key_id=${aws_iam_access_key.atlantis.id}
+aws_secret_access_key=${aws_iam_access_key.atlantis.secret}
+region=us-east-1
+EOF
+  }
+}
+
+resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {
+  manifest = {
+    "apiVersion" = "cert-manager.io/v1"
+    "kind" = "Certificate"
+    "metadata" = {
+      "name" = "atlantis-billv-ca"
+      "namespace" = kubernetes_namespace_v1.namespace.metadata[0].name
+    }
+    "spec" = {
+      "dnsNames" = [
+        "atlantis.billv.ca",
+      ]
+      "issuerRef" = {
+        "kind" = "ClusterIssuer"
+        "name" = "letsencrypt"
+      }
+      "secretName" = "atlantis-billv-ca"
+    }
+  }
+}
+
+resource "kubernetes_manifest" "ingressroute" {
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind" = "IngressRoute"
+    "metadata" = {
+      "name" = "atlantis"
+      "namespace" = kubernetes_namespace_v1.namespace.metadata[0].name
+    }
+    "spec" = {
+      "entryPoints" = ["websecure"]
+      "routes" = [
+      {
+        "kind" = "Rule"
+        "match" = "Host(`atlantis.billv.ca`) && !(Path(`/events`) && Method(`POST`))"
+        "middlewares" = [{
+          "name" = "authentik"
+          "namespace" = kubernetes_namespace_v1.namespace.metadata[0].name
+        }],
+        "services" = [{
+          "kind" = "Service"
+          "name" = "runatlantis"
+          "port" = 80
+        }]
+      },
+      {
+        "kind" = "Rule"
+        "match" = "Host(`atlantis.billv.ca`) && Path(`/events`) && Method(`POST`)"
+        "services" = [{
+          "kind" = "Service"
+          "name" = "runatlantis"
+          "port" = 80
+        }]
+      }]
+      "tls" = {
+        "secretName" = "atlantis-billv-ca"
+      }
+    }
+  }
+}
