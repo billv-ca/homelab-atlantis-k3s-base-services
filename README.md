@@ -1,5 +1,5 @@
 # homelab-k3s-base-services
-This repo exists as part of the bbl232/homelab-* series of repositories containing IaC and documentation for my homelab.
+This repo exists as part of the billv-ca/homelab-* series of repositories containing IaC and documentation for my homelab. See [homelab-documentation](https://github.com/billv-ca/homelab-documentation) for more information.
 
 This repo contains parts of the homelab running in Kubernetes that I consider `base-services` generally these are resources that need to be in place before the next set of services can be applied
 
