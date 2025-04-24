@@ -87,10 +87,42 @@ resource "aws_iam_user_policy" "atlantis" {
       "Action": [
         "iam:GetUser",
         "iam:GetUserPolicy",
-        "iam:ListAccessKeys"
+        "iam:ListAccessKeys",
+        "iam:GetSAMLProvider",
+        "iam:ListPolicies",
+        "iam:GetPolicy",
+        "iam:GetRole",
+        "iam:ListRolePolicies",
+        "iam:GetPolicyVersion",
+        "iam:ListAttachedRolePolicies"
       ],
       "Resource": [
-        "arn:aws:iam::398183381961:user/system/*"
+        "arn:aws:iam::398183381961:user/system/*",
+        "arn:aws:iam::398183381961:saml-provider/Authentik3s",
+        "arn:aws:iam::398183381961:role/Authentik-SAML-Admin",
+        "arn:aws:iam::*:policy/*"
+      ]
+    },
+    {
+      "Sid": "GrantAtlantisRoute53Access",
+      "Effect": "Allow",
+      "Action": [
+        "route53:ListHostedZones"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Sid": "GrantAtlantisRoute53HostedZoneAccess",
+      "Effect": "Allow",
+      "Action": [
+        "route53:GetHostedZone",
+        "route53:ListTagsForResource",
+        "route53:ListResourceRecordSets"
+      ],
+      "Resource": [
+        "arn:aws:route53:::hostedzone/Z0798217GFK6DVLPWL4O"
       ]
     }
   ]})
