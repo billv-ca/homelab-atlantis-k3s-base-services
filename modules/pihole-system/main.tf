@@ -28,6 +28,10 @@ resource "helm_release" "pihole" {
 admin:
   enabled: false
 
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
 replicaCount: 2
 serviceWeb:
   https:
