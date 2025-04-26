@@ -52,7 +52,7 @@ maxUnavailable: 1
 # and sets upstream dns in pihole to leverage it
 doh:
   enabled: true
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   envVars: {
     DOH_UPSTREAM: "https://1.1.1.1/dns-query"
   }
