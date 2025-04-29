@@ -42,6 +42,10 @@ data "aws_ssm_parameter" "atlantis-secret" {
   name = "/runatlantis/webhook-secret"
 }
 
+data "aws_ssm_parameter" "proxmox-password" {
+  name = "proxmox-ve-password"
+}
+
 resource "aws_iam_user" "atlantis" {
   path = "/system/"
   name = "atlantis"
@@ -78,6 +82,7 @@ resource "aws_iam_user_policy" "atlantis" {
       "Resource": [
         "arn:aws:ssm:us-east-1:398183381961:parameter/runatlantis/webhook-secret",
         "arn:aws:ssm:us-east-1:398183381961:parameter/zoho-smtp-creds",
+        "arn:aws:ssm:us-east-1:398183381961:parameter/proxmox-ve-password",
         "arn:aws:ssm:us-east-1:398183381961:parameter/runatlantis/key"
       ]
     },
@@ -143,6 +148,17 @@ resource "kubernetes_secret_v1" "authentik_api_key" {
   }
 }
 
+resource "kubernetes_secret_v1" "proxmox_password" {
+  metadata {
+    name = "proxmox-password"
+    namespace = kubernetes_namespace_v1.namespace.metadata[0].name
+  }
+
+  data = {
+    proxmox_password = data.aws_ssm_parameter.proxmox-password.value
+  }
+}
+
 resource "helm_release" "atlantis" {
   name = "runatlantis"
   repository = "https://runatlantis.github.io/helm-charts"
@@ -180,6 +196,21 @@ resource "helm_release" "atlantis" {
   set {
     name = "environmentSecrets[0].secretKeyRef.key"
     value = "authentik_api_key"
+  }
+
+  set {
+    name = "environmentSecrets[1].name"
+    value = "TF_VAR_proxmox_password"
+  }
+
+  set {
+    name = "environmentSecrets[1].secretKeyRef.name"
+    value = kubernetes_secret_v1.proxmox_password.metadata[0].name
+  }
+
+  set {
+    name = "environmentSecrets[1].secretKeyRef.key"
+    value = "proxmox_password"
   }
 
   set {
