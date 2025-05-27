@@ -64,16 +64,6 @@ doh:
 dnsmasq:
   customSettings:
     - except-interface=nonexisting
-  customDnsEntries:
-    - address=/pihole.billv.ca/${data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip}
-    - address=/auth.billv.ca/${data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip}
-    - address=/longhorn.billv.ca/${data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip}
-    - address=/mealie.billv.ca/${data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip}
-    - address=/omada.billv.ca/${data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip}
-    - address=/wireguard.billv.ca/${data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip}
-    - address=/kube.billv.ca/${data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip}
-    - address=/ocis.billv.ca/${data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip}
-    - address=/meshcentral.billv.ca/10.206.101.4
 EOF
   ]
 }
