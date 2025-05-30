@@ -141,7 +141,7 @@ resource "kubernetes_manifest" "ingressroute" {
 
 resource "kubernetes_manifest" "recurringjob_longhorn_system_daily_backup" {
   manifest = {
-    "apiVersion" = "longhorn.io/v1beta1"
+    "apiVersion" = "longhorn.io/v1beta2"
     "kind" = "RecurringJob"
     "metadata" = {
       "name" = "daily-backup"
