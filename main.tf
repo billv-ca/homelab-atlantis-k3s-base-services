@@ -21,6 +21,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
+module "k8s_amd_gpu" {
+  source = "./modules/k8s-amd-gpu"
+}
+
 module "metallb-system" {
   source = "./modules/metallb-system"
 }
