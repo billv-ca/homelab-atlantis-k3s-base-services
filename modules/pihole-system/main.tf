@@ -91,7 +91,7 @@ resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {
 
 resource "kubernetes_manifest" "middleware_admin" {
   manifest = {
-    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "apiVersion" = "traefik.io/v1alpha1"
     "kind" = "Middleware"
     "metadata" = {
       "name" = "add-admin"
@@ -107,7 +107,7 @@ resource "kubernetes_manifest" "middleware_admin" {
 
 resource "kubernetes_manifest" "middleware_ipallowlist" {
   manifest = {
-    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "apiVersion" = "traefik.io/v1alpha1"
     "kind" = "Middleware"
     "metadata" = {
       "name" = "allowlist"
@@ -128,7 +128,7 @@ resource "kubernetes_manifest" "middleware_ipallowlist" {
 
 resource "kubernetes_manifest" "ingressroute" {
   manifest = {
-    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "apiVersion" = "traefik.io/v1alpha1"
     "kind" = "IngressRoute"
     "metadata" = {
       "name" = "pihole"
@@ -182,7 +182,7 @@ resource "kubernetes_manifest" "certificate_piholeassistant_billv_ca" {
 
 resource "kubernetes_manifest" "assistant_ingressroute" {
   manifest = {
-    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "apiVersion" = "traefik.io/v1alpha1"
     "kind" = "IngressRoute"
     "metadata" = {
       "name" = "piholeassistant"

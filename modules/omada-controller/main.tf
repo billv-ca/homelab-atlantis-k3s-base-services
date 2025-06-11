@@ -311,7 +311,7 @@ resource "kubernetes_manifest" "certificate_authentik_omada_billv_ca" {
 
 resource "kubernetes_manifest" "ingressroute" {
   manifest = {
-    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "apiVersion" = "traefik.io/v1alpha1"
     "kind" = "IngressRoute"
     "metadata" = {
       "name" = "omada"
