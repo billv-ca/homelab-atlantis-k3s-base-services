@@ -64,6 +64,10 @@ doh:
 dnsmasq:
   customSettings:
     - except-interface=nonexisting
+
+image:
+  repository: "pihole/pihole"
+  tag: "2025.06.2"
 EOF
   ]
 }
