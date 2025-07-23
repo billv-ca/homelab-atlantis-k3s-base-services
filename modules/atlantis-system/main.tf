@@ -223,7 +223,7 @@ resource "helm_release" "atlantis" {
   }
 ]
 
-  set_sensitive = {
+  set_sensitive = [{
     name = "githubApp.key"
     value = data.aws_ssm_parameter.atlantis-key.value
   },
@@ -239,7 +239,7 @@ aws_access_key_id=${aws_iam_access_key.atlantis.id}
 aws_secret_access_key=${aws_iam_access_key.atlantis.secret}
 region=us-east-1
 EOF
-  }
+  }]
 }
 
 resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {
