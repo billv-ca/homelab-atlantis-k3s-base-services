@@ -14,7 +14,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  kubernetes {}
+  kubernetes = {}
 }
 
 provider "aws" {

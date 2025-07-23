@@ -39,35 +39,32 @@ resource "helm_release" "authentik" {
   namespace = "authentik"
   create_namespace = true
   
-  set_sensitive {
+  set_sensitive = [
+  {
     name = "authentik.secret_key"
     value = random_password.authentik_secret_key.result
-  }
-
-  set_sensitive {
+  },
+  {
     name = "authentik.postgresql.password"
     value = random_password.postgresql_password.result
-  }
-
-  set_sensitive {
+  },
+  {
     name = "postgresql.auth.password"
     value = random_password.postgresql_password.result
-  }
-
-  set_sensitive {
+  },
+  {
     name = "authentik.email.password"
     value = data.aws_ssm_parameter.smtp.value
-  }
-
-  set_sensitive {
+  },
+  {
     name = "worker.env[0].value"
     value = random_password.akadmin_password.result
-  }
-
-  set_sensitive {
+  },
+  {
     name = "worker.env[2].value"
     value = var.authentik_api_key
   }
+]
 
   values = [
 <<-EOF

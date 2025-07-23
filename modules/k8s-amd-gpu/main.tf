@@ -5,8 +5,8 @@ resource "helm_release" "k8s-device-plugin" {
   create_namespace = true
   name = "amd-gpu"
 
-  set {
+  set = [{
     name = "nfd.enabled"
     value = true
-  }
+  }]
 }
