@@ -73,18 +73,20 @@ resource "helm_release" "longhorn" {
   namespace = kubernetes_namespace.longhorn_system.metadata.0.name
   create_namespace = false
 
-  set {
+  set = [
+  {
     name = "defaultSettings.backupTarget"
     value = "s3://${aws_s3_bucket.longhorn_backups.id}@${aws_s3_bucket.longhorn_backups.region}/"
-  }
-  set {
+  },
+  {
     name = "defaultSettings.backupTargetCredentialSecret"
     value = kubernetes_secret_v1.longhorn_backups_credentials.metadata.0.name
-  }
-  set {
+  },
+  {
     name = "defaultSettings.backupstorePollInterval"
     value = "0"
   }
+]
 }
 
 resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {

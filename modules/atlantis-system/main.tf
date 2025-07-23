@@ -167,101 +167,72 @@ resource "helm_release" "atlantis" {
   namespace = kubernetes_namespace_v1.namespace.metadata[0].name
   create_namespace = false
 
-
-  set {
+  set = [
+    {
     name = "extraArgs[0]"
     value = "--automerge"
-  }
-
-  set {
+  },
+  {
     name = "environment.ATLANTIS_GH_ORG"
     value = "billv-ca"
-  }
-
-  set {
+  },
+  {
     name = "environment.ATLANTIS_GH_TEAM_ALLOWLIST"
     value = "admins:plan\\, admins:apply\\, admins:state\\, admins:import\\, admins:unlock\\, admins:approve_policies"
-  }
-
-  set {
+  },
+  {
     name = "environmentSecrets[0].name"
     value = "TF_VAR_authentik_api_key"
-  }
-
-  set {
+  },
+  {
     name = "environmentSecrets[0].secretKeyRef.name"
     value = "authentik-api-key"
-  }
-
-  set {
+  },
+  {
     name = "environmentSecrets[0].secretKeyRef.key"
     value = "authentik_api_key"
-  }
-
-  set {
+  },
+  {
     name = "environmentSecrets[1].name"
     value = "TF_VAR_proxmox_password"
-  }
-
-  set {
+  },
+  {
     name = "environmentSecrets[1].secretKeyRef.name"
     value = kubernetes_secret_v1.proxmox_password.metadata[0].name
-  }
-
-  set {
+  },
+  {
     name = "environmentSecrets[1].secretKeyRef.key"
     value = "proxmox_password"
-  }
-
-  set {
+  },
+  {
     name = "atlantisUrl"
     value = "https://atlantis.billv.ca"
-  }
-
-# Used for initial setup of github app
-  # set {
-  #   name = "github.user"
-  #   value = "fake"
-  # }
-
-  # set {
-  #   name = "github.secret"
-  #   value = "fake"
-  # }
-
-  # set {
-  #   name = "github.token"
-  #   value = "fake"
-  # }
-
-  set {
+  },
+  {
     name = "githubApp.id"
     value = "1224527"
-  }
-
-  set_sensitive {
-    name = "githubApp.key"
-    value = data.aws_ssm_parameter.atlantis-key.value
-  }
-
-  set_sensitive {
-    name = "githubApp.secret"
-    value = data.aws_ssm_parameter.atlantis-secret.value
-  }
-
-  set {
+    type = "string"
+  },
+  {
     name = "volumeClaim.storageClassName"
     value = "longhorn"
-  }
-
-  set {
+  },
+  {
     name = "orgAllowlist"
     value = "github.com/billv-ca/homelab-atlantis*"
   }
+]
 
-  set_sensitive {
+  set_sensitive = {
+    name = "githubApp.key"
+    value = data.aws_ssm_parameter.atlantis-key.value
+  },
+  {
+    name = "githubApp.secret"
+    value = data.aws_ssm_parameter.atlantis-secret.value
+  },
+  {
     name = "aws.credentials"
-    
     value = <<EOF
 [default]
 aws_access_key_id=${aws_iam_access_key.atlantis.id}
