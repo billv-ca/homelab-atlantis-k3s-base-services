@@ -69,7 +69,7 @@ resource "helm_release" "longhorn" {
   name = "longhorn"
   repository = "https://charts.longhorn.io"
   chart = "longhorn"
-  version = "1.9.0"
+  version = "1.9.1"
   namespace = kubernetes_namespace.longhorn_system.metadata.0.name
   create_namespace = false
 
