@@ -163,7 +163,7 @@ resource "helm_release" "atlantis" {
   name = "runatlantis"
   repository = "https://runatlantis.github.io/helm-charts"
   chart = "atlantis"
-  version = "5.18.0"
+  version = "5.18.1"
   namespace = kubernetes_namespace_v1.namespace.metadata[0].name
   create_namespace = false
 
