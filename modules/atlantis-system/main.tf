@@ -181,6 +181,10 @@ resource "helm_release" "atlantis" {
     value = "admins:plan\\, admins:apply\\, admins:state\\, admins:import\\, admins:unlock\\, admins:approve_policies"
   },
   {
+    name = "environment.ATLANTIS_EMOJI_REACTION"
+    value = "rocket"
+  },
+  {
     name = "environmentSecrets[0].name"
     value = "TF_VAR_authentik_api_key"
   },
