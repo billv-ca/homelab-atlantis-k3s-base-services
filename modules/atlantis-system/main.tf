@@ -78,7 +78,6 @@ resource "aws_iam_user_policy" "atlantis" {
       "Effect": "Allow",
       "Action": [
         "ssm:GetParameter",
-        "ssm:DescribeParameters",
         "ssm:ListTagsForResource"
       ],
       "Resource": [
@@ -88,7 +87,8 @@ resource "aws_iam_user_policy" "atlantis" {
         "arn:aws:ssm:us-east-1:398183381961:parameter/proxmox-ve-password",
         "arn:aws:ssm:us-east-1:398183381961:parameter/runatlantis/key"
       ]
-    },    {
+    },
+    {
       "Sid": "AtlantisSSMDescribeStar",
       "Effect": "Allow",
       "Action": [
