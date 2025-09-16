@@ -42,6 +42,17 @@ resource "random_password" "akadmin_password" {
   special = false
 }
 
+resource "kubernetes_secret_v1" "worker-env" {
+  metadata {
+    name = "worker-env"
+    namespace = "authentik"
+  }
+  data = {
+    AUTHENTIK_BOOTSTRAP_PASSWORD = random_password.akadmin_password.result
+    AUTHENTIK_BOOTSTRAP_TOKEN = random_password.authentik_api_key.result
+  }
+}
+
 resource "helm_release" "authentik" {
   name = "authentik"
   repository = "https://charts.goauthentik.io"
@@ -68,20 +79,8 @@ resource "helm_release" "authentik" {
     value = data.aws_ssm_parameter.smtp.value
   },
   {
-    name = "worker.env[1].name"
-    value = "AUTHENTIK_BOOTSTRAP_PASSWORD"
-  },
-  {
-    name = "worker.env[1].value"
-    value = random_password.akadmin_password.result
-  },
-  {
-    name = "worker.env[2].name"
-    value = "AUTHENTIK_BOOTSTRAP_TOKEN"
-  },
-  {
-    name = "worker.env[2].value"
-    value = random_password.authentik_api_key.result
+    name = "worker.envFrom[0].secretRef.name"
+    value = "worker-env"
   }
 ]
 
