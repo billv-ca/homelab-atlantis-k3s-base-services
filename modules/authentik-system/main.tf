@@ -26,9 +26,20 @@ resource "random_password" "authentik_secret_key" {
     special = true
 }
 
+resource "random_password" "authentik_api_key" {
+    length = 30
+    special = false
+}
+
+resource "aws_ssm_parameter" "authentik-api-key" {
+  type = "SecureString"
+  name = "authentik-api-key"
+  value = random_password.authentik_api_key.result
+}
+
 resource "random_password" "akadmin_password" {
   length = 20
-  special = true
+  special = false
 }
 
 resource "helm_release" "authentik" {
@@ -67,11 +78,10 @@ resource "helm_release" "authentik" {
   {
     name = "worker.env[2].name"
     value = "AUTHENTIK_BOOTSTRAP_TOKEN"
-
   },
   {
     name = "worker.env[2].value"
-    value = var.authentik_api_key
+    value = random_password.authentik_api_key.result
   }
 ]
 

@@ -35,7 +35,6 @@ module "cert-manager" {
 
 module "authentik_system" {
   source = "./modules/authentik-system"
-  authentik_api_key = var.authentik_api_key
 }
 
 module "longhorn_system" {
@@ -56,7 +55,7 @@ module "dashboard" {
 
 module "atlantis" {
   source = "./modules/atlantis-system"
-  authentik_api_key = var.authentik_api_key
+  authentik_api_key = module.authentik_system.authentik_api_key
 }
 
 module "traefik_config" {
