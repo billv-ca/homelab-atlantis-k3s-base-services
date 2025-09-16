@@ -77,7 +77,7 @@ resource "aws_iam_user_policy" "atlantis" {
       "Sid": "GrantAtlantisSSMAccess",
       "Effect": "Allow",
       "Action": [
-        "ssm:GetParameter",
+        "ssm:GetParameter*",
         "ssm:ListTagsForResource"
       ],
       "Resource": [
