@@ -77,7 +77,9 @@ resource "aws_iam_user_policy" "atlantis" {
       "Sid": "GrantAtlantisSSMAccess",
       "Effect": "Allow",
       "Action": [
-        "ssm:GetParameter"
+        "ssm:GetParameter",
+        "ssm:DescribeParameters",
+        "ssm:ListTagsForResource"
       ],
       "Resource": [
         "arn:aws:ssm:us-east-1:398183381961:parameter/runatlantis/webhook-secret",
@@ -85,6 +87,15 @@ resource "aws_iam_user_policy" "atlantis" {
         "arn:aws:ssm:us-east-1:398183381961:parameter/zoho-smtp-creds",
         "arn:aws:ssm:us-east-1:398183381961:parameter/proxmox-ve-password",
         "arn:aws:ssm:us-east-1:398183381961:parameter/runatlantis/key"
+      ]
+    },    {
+      "Sid": "AtlantisSSMDescribeStar",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:DescribeParameters",
+      ],
+      "Resource": [
+        "*"
       ]
     },
     {
