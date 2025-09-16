@@ -57,8 +57,17 @@ resource "helm_release" "authentik" {
     value = data.aws_ssm_parameter.smtp.value
   },
   {
-    name = "worker.env[0].value"
+    name = "worker.env[1].name"
+    value = "AUTHENTIK_BOOTSTRAP_PASSWORD"
+  },
+  {
+    name = "worker.env[1].value"
     value = random_password.akadmin_password.result
+  },
+  {
+    name = "worker.env[2].name"
+    value = "AUTHENTIK_BOOTSTRAP_TOKEN"
+
   },
   {
     name = "worker.env[2].value"
@@ -97,10 +106,8 @@ redis:
 
 worker:
     env:
-        - name: AUTHENTIK_BOOTSTRAP_PASSWORD
         - name: AUTHENTIK_BOOTSTRAP_EMAIL
           value: bill@vandenberk.me
-        - name: AUTHENTIK_BOOTSTRAP_TOKEN
 EOF
   ]
 }
