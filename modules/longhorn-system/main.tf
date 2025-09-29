@@ -85,6 +85,10 @@ resource "helm_release" "longhorn" {
   {
     name = "defaultSettings.backupstorePollInterval"
     value = "0"
+  },
+  {
+    name = "defaultSettings.nodeDownPodDeletionPolicy"
+    value = "delete-both-statefulset-and-deployment-pod"
   }
 ]
 }
