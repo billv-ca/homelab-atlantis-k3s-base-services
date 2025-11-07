@@ -41,7 +41,7 @@ resource "kubernetes_stateful_set_v1" "omada" {
         storage_class_name = "longhorn"
         resources {
           requests = {
-            storage = "1Gi"
+            storage = "5Gi"
           }
         }
       }
@@ -123,6 +123,11 @@ resource "kubernetes_stateful_set_v1" "omada" {
             name = "rtty"
             protocol = "TCP"
             container_port = 29816
+          }
+          port {
+            name = "devicemonitor"
+            protocol = "TCP"
+            container_port = 29817
           }
           env {
             name = "PUID"
@@ -284,6 +289,12 @@ resource "kubernetes_service_v1" "omada_controller" {
       protocol = "TCP"
       port = 29816
       target_port = 29816
+    }
+    port {
+      name = "devicemonitor"
+      protocol = "TCP"
+      port = 29817
+      target_port = 29817
     }
   }
 }
