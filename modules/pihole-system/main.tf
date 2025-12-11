@@ -20,7 +20,7 @@ resource "helm_release" "pihole" {
   name = "pihole"
   repository = "https://mojo2600.github.io/pihole-kubernetes/"
   chart = "pihole"
-  version = "2.34.0"
+  version = "2.35.0"
   namespace = "pihole-system"
   create_namespace = true
   values = [
