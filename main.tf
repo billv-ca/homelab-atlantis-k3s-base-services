@@ -49,10 +49,6 @@ module "omada_controller" {
   source = "./modules/omada-controller"
 }
 
-module "dashboard" {
-  source = "./modules/dashboard-system"
-}
-
 module "atlantis" {
   source = "./modules/atlantis-system"
   authentik_api_key = module.authentik_system.authentik_api_key
