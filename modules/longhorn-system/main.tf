@@ -164,3 +164,22 @@ resource "kubernetes_manifest" "recurringjob_longhorn_system_daily_backup" {
     }
   }
 }
+
+resource "kubernetes_manifest" "recurringjob_longhorn_system_weekly_filesystem_trim" {
+  manifest = {
+    "apiVersion" = "longhorn.io/v1beta2"
+    "kind" = "RecurringJob"
+    "metadata" = {
+      "name" = "weekly-trim"
+      "namespace" = "longhorn-system"
+    }
+    "spec" = {
+      "concurrency" = 1
+      "cron" = "0 2 2 * *"
+      "groups" = [
+        "default",
+      ]
+      "task" = "filesystem-trim"
+    }
+  }
+}
