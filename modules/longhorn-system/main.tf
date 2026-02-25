@@ -89,6 +89,10 @@ resource "helm_release" "longhorn" {
   {
     name = "defaultSettings.nodeDownPodDeletionPolicy"
     value = "delete-both-statefulset-and-deployment-pod"
+  },
+  {
+    name = "defaultSettings.concurrentAutomaticEngineUpgradePerNodeLimit"
+    value = "1"
   }
 ]
 }
