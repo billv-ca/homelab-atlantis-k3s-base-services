@@ -93,6 +93,10 @@ resource "helm_release" "longhorn" {
   {
     name = "defaultSettings.concurrentAutomaticEngineUpgradePerNodeLimit"
     value = "1"
+  },
+  {
+    name = "defaultSettings.defaultBackupBlockSize"
+    value = "16"
   }
 ]
 }
