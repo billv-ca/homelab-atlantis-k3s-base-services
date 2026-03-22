@@ -183,7 +183,7 @@ resource "kubernetes_manifest" "recurringjob_longhorn_system_weekly_filesystem_t
     }
     "spec" = {
       "concurrency" = 1
-      "cron" = "0 2 2 * *"
+      "cron" = "0 2 * * 2"
       "groups" = [
         "default",
       ]
