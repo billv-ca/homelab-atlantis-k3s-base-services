@@ -9,7 +9,8 @@ terraform {
 provider "kubernetes" {
     ignore_annotations = [
       "metallb\\.universe\\.tf\\/ip\\-allocated\\-from\\-pool",
-      "kubectl\\.kubernetes\\.io\\/restartedAt"
+      "kubectl\\.kubernetes\\.io\\/restartedAt",
+      "metallb\\.io\\/ip\\-allocated\\-from\\-pool"
     ]
 }
 
