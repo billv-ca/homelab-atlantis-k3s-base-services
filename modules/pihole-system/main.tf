@@ -25,6 +25,14 @@ resource "helm_release" "pihole" {
   create_namespace = true
   values = [
 <<-EOF
+podDisruptionBudget:
+  enabled: true
+
+antiaff:
+  enabled: true
+  strict: true
+  avoidRelease: pihole
+
 admin:
   enabled: false
 
