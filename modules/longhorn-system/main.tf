@@ -97,8 +97,117 @@ resource "helm_release" "longhorn" {
   {
     name = "defaultSettings.defaultBackupBlockSize"
     value = "16"
+  },
+  {
+    name = "persistence.defaultDiskSelector.enable"
+    value = "true"
+  },
+  {
+    name = "persistence.defaultDiskSelector.selector"
+    value = "nvme"
   }
 ]
+}
+
+resource "kubernetes_manifest" "node0" {
+  manifest = {
+    "apiVersion" = "longhorn.io/v1beta2"
+    "kind" = "Node"
+    metadata = {
+      name = "k8s-0"
+      namespace = "longhorn-system"
+    }
+    spec = {
+      "allowScheduling" = true
+      disks = {
+        "default-disk-5d318904beec535b" = {
+          "allowScheduling": true
+          "diskDriver": ""
+          "diskType": "filesystem"
+          "evictionRequested": false
+          "path": "/var/lib/longhorn/"
+          "storageReserved": 12094714675
+          "tags": ["nvme"]
+        }
+      }
+      "evictionRequested": false
+      "instanceManagerCPURequest": 0
+      "name": "k8s-0"
+    }
+  }
+}
+
+resource "kubernetes_manifest" "node1" {
+  manifest = {
+    "apiVersion" = "longhorn.io/v1beta2"
+    "kind" = "Node"
+    metadata = {
+      name = "node-1"
+      namespace = "longhorn-system"
+    }
+    spec = {
+      "allowScheduling" = true
+      disks = {
+        "default-disk-5e1866147d0e2117" = {
+          "allowScheduling": true
+          "diskDriver": ""
+          "diskType": "filesystem"
+          "evictionRequested": false
+          "path": "/var/lib/longhorn/"
+          "storageReserved": 74088185856
+          "tags": ["nvme"]
+        }
+      }
+      "evictionRequested": false
+      "instanceManagerCPURequest": 0
+      "name": "node-1"
+    }
+  }
+}
+
+resource "kubernetes_manifest" "node2" {
+  manifest = {
+    "apiVersion" = "longhorn.io/v1beta2"
+    "kind" = "Node"
+    metadata = {
+      name = "k8s-2"
+      namespace = "longhorn-system"
+    }
+    spec = {
+      "allowScheduling" = true
+      disks = {
+        "default-disk-5d318904beec535b" = {
+          "allowScheduling": true
+          "diskDriver": ""
+          "diskType": "filesystem"
+          "evictionRequested": false
+          "path": "/var/lib/longhorn/"
+          "storageReserved": 12133282611
+          "tags": ["nvme"]
+        }
+      }
+      "evictionRequested": false
+      "instanceManagerCPURequest": 0
+      "name": "k8s-2"
+    }
+  }
+}
+
+resource "kubernetes_storage_class_v1" "longhorn-sata" {
+  metadata {
+    name = "longhorn-sata"
+  }
+  storage_provisioner = "driver.longhorn.io"
+  allow_volume_expansion = true
+  reclaim_policy = "Delete"
+  volume_binding_mode = "Immediate"
+  parameters = {
+    "numberOfReplicas" = "2"
+    "staleReplicaTimeout" = "1880"
+    "fromBackup" = ""
+    "fsType" = "ext4"
+    "diskSelector" = "sata"
+  }
 }
 
 resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {
