@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     kubernetes = {
-        source = "hashicorp/kubernetes"
+      source = "hashicorp/kubernetes"
     }
   }
 }
@@ -14,16 +14,16 @@ resource "kubernetes_namespace_v1" "omada_controller" {
 
 resource "kubernetes_stateful_set_v1" "omada" {
   metadata {
-      name = "omada-controller"
-      namespace = kubernetes_namespace_v1.omada_controller.metadata.0.name
+    name      = "omada-controller"
+    namespace = kubernetes_namespace_v1.omada_controller.metadata[0].name
   }
   spec {
     volume_claim_template {
       metadata {
-          name = "omada-logs"
+        name = "omada-logs"
       }
       spec {
-        access_modes = ["ReadWriteOnce"]
+        access_modes       = ["ReadWriteOnce"]
         storage_class_name = "longhorn"
         resources {
           requests = {
@@ -34,10 +34,10 @@ resource "kubernetes_stateful_set_v1" "omada" {
     }
     volume_claim_template {
       metadata {
-          name = "omada-data"
+        name = "omada-data"
       }
       spec {
-        access_modes = ["ReadWriteOnce"]
+        access_modes       = ["ReadWriteOnce"]
         storage_class_name = "longhorn"
         resources {
           requests = {
@@ -54,8 +54,8 @@ resource "kubernetes_stateful_set_v1" "omada" {
     service_name = "omada-controller"
     template {
       metadata {
-        name = "omada-controller"
-        namespace = kubernetes_namespace_v1.omada_controller.metadata.0.name
+        name      = "omada-controller"
+        namespace = kubernetes_namespace_v1.omada_controller.metadata[0].name
         labels = {
           app = "omada-controller"
         }
@@ -63,146 +63,146 @@ resource "kubernetes_stateful_set_v1" "omada" {
       spec {
         host_network = true
         container {
-          name = "omada-controller"
-          image = "mbentley/omada-controller:6.1"
+          name              = "omada-controller"
+          image             = "mbentley/omada-controller:6.1"
           image_pull_policy = "Always"
           volume_mount {
-            name = "omada-data"
+            name       = "omada-data"
             mount_path = "/opt/tplink/EAPController/data"
           }
           volume_mount {
-            name = "omada-logs"
+            name       = "omada-logs"
             mount_path = "/opt/tplink/EAPController/logs"
           }
           port {
-            name = "http"
+            name           = "http"
             container_port = 8080
-            protocol = "TCP"
+            protocol       = "TCP"
           }
           port {
-            name = "https"
+            name           = "https"
             container_port = 8043
-            protocol = "TCP"
+            protocol       = "TCP"
           }
           port {
-            name = "app-discovery"
-            protocol = "TCP"
+            name           = "app-discovery"
+            protocol       = "TCP"
             container_port = 27001
           }
           port {
-            name = "upgrade-v1"
-            protocol = "TCP"
+            name           = "upgrade-v1"
+            protocol       = "TCP"
             container_port = 29813
           }
           port {
-            name = "manager-v1"
-            protocol = "TCP"
+            name           = "manager-v1"
+            protocol       = "TCP"
             container_port = 29811
           }
           port {
-            name = "manager-v2"
-            protocol = "TCP"
+            name           = "manager-v2"
+            protocol       = "TCP"
             container_port = 29814
           }
           port {
-            name = "discovery"
-            protocol = "UDP"
+            name           = "discovery"
+            protocol       = "UDP"
             container_port = 29810
           }
           port {
-            name = "discovery2"
-            protocol = "UDP"
+            name           = "discovery2"
+            protocol       = "UDP"
             container_port = 19810
           }
           port {
-            name = "transfer-v2"
-            protocol = "TCP"
+            name           = "transfer-v2"
+            protocol       = "TCP"
             container_port = 29815
           }
           port {
-            name = "rtty"
-            protocol = "TCP"
+            name           = "rtty"
+            protocol       = "TCP"
             container_port = 29816
           }
           port {
-            name = "devicemonitor"
-            protocol = "TCP"
+            name           = "devicemonitor"
+            protocol       = "TCP"
             container_port = 29817
           }
           env {
-            name = "PUID"
+            name  = "PUID"
             value = "508"
           }
           env {
-            name = "PGID"
+            name  = "PGID"
             value = "508"
           }
           env {
-            name = "MANAGE_HTTP_PORT"
+            name  = "MANAGE_HTTP_PORT"
             value = "8080"
           }
           env {
-            name = "MANAGE_HTTPS_PORT"
+            name  = "MANAGE_HTTPS_PORT"
             value = "8043"
           }
           env {
-            name = "PORTAL_HTTP_PORT"
+            name  = "PORTAL_HTTP_PORT"
             value = "8080"
           }
           env {
-            name = "PORTAL_HTTPS_PORT"
+            name  = "PORTAL_HTTPS_PORT"
             value = "8043"
           }
           env {
-            name = "PORTAL_APP_DISCOVERY"
+            name  = "PORTAL_APP_DISCOVERY"
             value = "27001"
           }
           env {
-            name = "PORT_ADOPT_V1"
+            name  = "PORT_ADOPT_V1"
             value = "29812"
           }
           env {
-            name = "PORT_UPGRADE_V1"
+            name  = "PORT_UPGRADE_V1"
             value = "29813"
           }
           env {
-            name = "PORT_MANAGER_V1"
+            name  = "PORT_MANAGER_V1"
             value = "29811"
           }
           env {
-            name = "PORT_MANAGER_V2"
+            name  = "PORT_MANAGER_V2"
             value = "29814"
           }
           env {
-            name = "PORT_DISCOVERY"
+            name  = "PORT_DISCOVERY"
             value = "29810"
           }
           env {
-            name = "PORT_TRANSFER_V2"
+            name  = "PORT_TRANSFER_V2"
             value = "29815"
           }
           env {
-            name = "PORT_RTTY"
+            name  = "PORT_RTTY"
             value = "29816"
           }
           env {
-            name = "SHOW_SERVER_LOGS"
+            name  = "SHOW_SERVER_LOGS"
             value = "true"
           }
           env {
-            name = "SHOW_MONGODB_LOGS"
+            name  = "SHOW_MONGODB_LOGS"
             value = "false"
           }
           env {
-            name = "SSL_CERT_NAME"
+            name  = "SSL_CERT_NAME"
             value = "tls.crt"
           }
           env {
-            name = "SSL_KEY_NAME"
+            name  = "SSL_KEY_NAME"
             value = "tls.key"
           }
           env {
-            name = "TZ"
+            name  = "TZ"
             value = "Etc/UTC"
           }
         }
@@ -213,8 +213,8 @@ resource "kubernetes_stateful_set_v1" "omada" {
 
 resource "kubernetes_service_v1" "omada_controller" {
   metadata {
-    name = "omada-controller"
-    namespace = kubernetes_namespace_v1.omada_controller.metadata.0.name
+    name      = "omada-controller"
+    namespace = kubernetes_namespace_v1.omada_controller.metadata[0].name
     annotations = {
       "metallb.universe.tf/loadBalancerIPs" = "10.206.101.2"
     }
@@ -222,78 +222,78 @@ resource "kubernetes_service_v1" "omada_controller" {
   spec {
     type = "LoadBalancer"
     selector = {
-        "app" = "omada-controller"
+      "app" = "omada-controller"
     }
     port {
-      name = "http"
-      port = 8080
+      name        = "http"
+      port        = 8080
       target_port = 8080
-      protocol = "TCP"
+      protocol    = "TCP"
     }
     port {
-      name = "https"
-      port = 8043
+      name        = "https"
+      port        = 8043
       target_port = 8043
-      protocol = "TCP"
+      protocol    = "TCP"
     }
     port {
-      name = "app-discovery"
-      protocol = "TCP"
-      port = 27001
+      name        = "app-discovery"
+      protocol    = "TCP"
+      port        = 27001
       target_port = 27001
     }
     port {
-      name = "upgrade-v1"
-      protocol = "TCP"
-      port = 29813
+      name        = "upgrade-v1"
+      protocol    = "TCP"
+      port        = 29813
       target_port = 29813
     }
     port {
-      name = "manager-v1"
-      protocol = "TCP"
-      port = 29811
+      name        = "manager-v1"
+      protocol    = "TCP"
+      port        = 29811
       target_port = 29811
     }
     port {
-      name = "adopt"
-      protocol = "TCP"
-      port = 29812
+      name        = "adopt"
+      protocol    = "TCP"
+      port        = 29812
       target_port = 29812
     }
     port {
-      name = "manager-v2"
-      protocol = "TCP"
-      port = 29814
+      name        = "manager-v2"
+      protocol    = "TCP"
+      port        = 29814
       target_port = 29814
     }
     port {
-      name = "discovery"
-      protocol = "UDP"
-      port = 29810
+      name        = "discovery"
+      protocol    = "UDP"
+      port        = 29810
       target_port = 29810
     }
     port {
-      name = "discovery2"
-      protocol = "UDP"
-      port = 19810
+      name        = "discovery2"
+      protocol    = "UDP"
+      port        = 19810
       target_port = 19810
     }
     port {
-      name = "transfer-v2"
-      protocol = "TCP"
-      port = 29815
+      name        = "transfer-v2"
+      protocol    = "TCP"
+      port        = 29815
       target_port = 29815
     }
     port {
-      name = "rtty"
-      protocol = "TCP"
-      port = 29816
+      name        = "rtty"
+      protocol    = "TCP"
+      port        = 29816
       target_port = 29816
     }
     port {
-      name = "devicemonitor"
-      protocol = "TCP"
-      port = 29817
+      name        = "devicemonitor"
+      protocol    = "TCP"
+      port        = 29817
       target_port = 29817
     }
   }
@@ -302,10 +302,10 @@ resource "kubernetes_service_v1" "omada_controller" {
 resource "kubernetes_manifest" "certificate_authentik_omada_billv_ca" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Certificate"
+    "kind"       = "Certificate"
     "metadata" = {
-      "name" = "omada-billv-ca"
-      "namespace" = kubernetes_namespace_v1.omada_controller.metadata.0.name
+      "name"      = "omada-billv-ca"
+      "namespace" = kubernetes_namespace_v1.omada_controller.metadata[0].name
     }
     "spec" = {
       "dnsNames" = [
@@ -323,22 +323,22 @@ resource "kubernetes_manifest" "certificate_authentik_omada_billv_ca" {
 resource "kubernetes_manifest" "ingressroute" {
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
-    "kind" = "IngressRoute"
+    "kind"       = "IngressRoute"
     "metadata" = {
-      "name" = "omada"
-      "namespace" = kubernetes_namespace_v1.omada_controller.metadata.0.name
+      "name"      = "omada"
+      "namespace" = kubernetes_namespace_v1.omada_controller.metadata[0].name
     }
     "spec" = {
       "entryPoints" = ["websecure"]
       "routes" = [{
-        "kind" = "Rule"
+        "kind"  = "Rule"
         "match" = "Host(`omada.billv.ca`)"
         "services" = [{
-          "kind" = "Service"
-          "name" = "omada-controller"
+          "kind"             = "Service"
+          "name"             = "omada-controller"
           "serversTransport" = "omada"
-          "port" = 8043
-          "scheme" = "https"
+          "port"             = 8043
+          "scheme"           = "https"
         }]
       }]
       "tls" = {
@@ -351,13 +351,13 @@ resource "kubernetes_manifest" "ingressroute" {
 resource "kubernetes_manifest" "servers_transport" {
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
-    "kind" = "ServersTransport"
+    "kind"       = "ServersTransport"
     "metadata" = {
-      "name" = "omada"
-      "namespace" = kubernetes_namespace_v1.omada_controller.metadata.0.name
+      "name"      = "omada"
+      "namespace" = kubernetes_namespace_v1.omada_controller.metadata[0].name
     }
     "spec" = {
-      "serverName" = "omada-controller.${kubernetes_namespace_v1.omada_controller.metadata.0.name}.svc.cluster.local"
+      "serverName"         = "omada-controller.${kubernetes_namespace_v1.omada_controller.metadata[0].name}.svc.cluster.local"
       "insecureSkipVerify" = "true"
     }
   }

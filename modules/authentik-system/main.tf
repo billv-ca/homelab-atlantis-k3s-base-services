@@ -1,13 +1,13 @@
 terraform {
   required_providers {
     helm = {
-        source = "hashicorp/helm"
+      source = "hashicorp/helm"
     }
     random = {
-        source = "hashicorp/random"
+      source = "hashicorp/random"
     }
     kubernetes = {
-        source = "hashicorp/kubernetes"
+      source = "hashicorp/kubernetes"
     }
   }
 }
@@ -17,75 +17,75 @@ data "aws_ssm_parameter" "smtp" {
 }
 
 resource "random_password" "postgresql_password" {
-    length = 20
-    special = true
+  length  = 20
+  special = true
 }
 
 resource "random_password" "authentik_secret_key" {
-    length = 20
-    special = true
+  length  = 20
+  special = true
 }
 
 resource "random_password" "authentik_api_key" {
-    length = 30
-    special = false
+  length  = 30
+  special = false
 }
 
 resource "aws_ssm_parameter" "authentik-api-key" {
-  type = "SecureString"
-  name = "authentik-api-key"
+  type  = "SecureString"
+  name  = "authentik-api-key"
   value = random_password.authentik_api_key.result
 }
 
 resource "random_password" "akadmin_password" {
-  length = 20
+  length  = 20
   special = false
 }
 
 resource "kubernetes_secret_v1" "worker-env" {
   metadata {
-    name = "worker-env"
+    name      = "worker-env"
     namespace = "authentik"
   }
   data = {
     AUTHENTIK_BOOTSTRAP_PASSWORD = random_password.akadmin_password.result
-    AUTHENTIK_BOOTSTRAP_TOKEN = random_password.authentik_api_key.result
+    AUTHENTIK_BOOTSTRAP_TOKEN    = random_password.authentik_api_key.result
   }
 }
 
 resource "helm_release" "authentik" {
-  name = "authentik"
-  repository = "https://charts.goauthentik.io"
-  chart = "authentik"
-  version = "2026.2.1"
-  namespace = "authentik"
+  name             = "authentik"
+  repository       = "https://charts.goauthentik.io"
+  chart            = "authentik"
+  version          = "2026.2.1"
+  namespace        = "authentik"
   create_namespace = true
-  
+
   set_sensitive = [
-  {
-    name = "authentik.secret_key"
-    value = random_password.authentik_secret_key.result
-  },
-  {
-    name = "authentik.postgresql.password"
-    value = random_password.postgresql_password.result
-  },
-  {
-    name = "postgresql.auth.password"
-    value = random_password.postgresql_password.result
-  },
-  {
-    name = "authentik.email.password"
-    value = data.aws_ssm_parameter.smtp.value
-  },
-  {
-    name = "worker.envFrom[0].secretRef.name"
-    value = "worker-env"
-  }
-]
+    {
+      name  = "authentik.secret_key"
+      value = random_password.authentik_secret_key.result
+    },
+    {
+      name  = "authentik.postgresql.password"
+      value = random_password.postgresql_password.result
+    },
+    {
+      name  = "postgresql.auth.password"
+      value = random_password.postgresql_password.result
+    },
+    {
+      name  = "authentik.email.password"
+      value = data.aws_ssm_parameter.smtp.value
+    },
+    {
+      name  = "worker.envFrom[0].secretRef.name"
+      value = "worker-env"
+    }
+  ]
 
   values = [
-<<-EOF
+    <<-EOF
 authentik:
     error_reporting:
         enabled: true
@@ -121,20 +121,12 @@ EOF
   ]
 }
 
-data "kubernetes_service_v1" "authentik_server" {
-    depends_on = [ helm_release.authentik ]
-    metadata {
-      namespace = "authentik"
-      name = "authentik-server"
-    }
-}
-
 resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Certificate"
+    "kind"       = "Certificate"
     "metadata" = {
-      "name" = "star-billv-ca"
+      "name"      = "star-billv-ca"
       "namespace" = "authentik"
     }
     "spec" = {
@@ -155,9 +147,9 @@ resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {
 resource "kubernetes_manifest" "certificate_authentik_auth_billv_ca" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Certificate"
+    "kind"       = "Certificate"
     "metadata" = {
-      "name" = "auth-billv-ca"
+      "name"      = "auth-billv-ca"
       "namespace" = "authentik"
     }
     "spec" = {
@@ -177,15 +169,15 @@ resource "kubernetes_manifest" "certificate_authentik_auth_billv_ca" {
 resource "kubernetes_manifest" "ingressroute" {
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
-    "kind" = "IngressRoute"
+    "kind"       = "IngressRoute"
     "metadata" = {
-      "name" = "auth"
+      "name"      = "auth"
       "namespace" = "authentik"
     }
     "spec" = {
       "entryPoints" = ["websecure"]
       "routes" = [{
-        "kind" = "Rule"
+        "kind"  = "Rule"
         "match" = "Host(`auth.billv.ca`)"
         "services" = [{
           "kind" = "Service"

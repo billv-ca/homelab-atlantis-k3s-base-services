@@ -1,17 +1,17 @@
 terraform {
   backend "s3" {
     bucket = "tfstate.billv.ca"
-    key = "k8s-setup/terraform.tfstate"
+    key    = "k8s-setup/terraform.tfstate"
     region = "us-east-1"
   }
 }
 
 provider "kubernetes" {
-    ignore_annotations = [
-      "metallb\\.universe\\.tf\\/ip-allocated-from-pool",
-      "kubectl\\.kubernetes\\.io\\/restartedAt",
-      "metallb\\.io\\/ip-allocated-from-pool"
-    ]
+  ignore_annotations = [
+    "metallb\\.universe\\.tf\\/ip-allocated-from-pool",
+    "kubectl\\.kubernetes\\.io\\/restartedAt",
+    "metallb\\.io\\/ip-allocated-from-pool"
+  ]
 }
 
 provider "helm" {
@@ -51,7 +51,7 @@ module "omada_controller" {
 }
 
 module "atlantis" {
-  source = "./modules/atlantis-system"
+  source            = "./modules/atlantis-system"
   authentik_api_key = module.authentik_system.authentik_api_key
 }
 
@@ -71,12 +71,12 @@ resource "kubernetes_cluster_role_binding" "admin" {
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
-    kind = "ClusterRole"
-    name = "cluster-admin"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
   }
   subject {
     kind = "ServiceAccount"
-    name = kubernetes_service_account_v1.bill.metadata.0.name
+    name = kubernetes_service_account_v1.bill.metadata[0].name
   }
 }
 
@@ -84,7 +84,7 @@ resource "kubernetes_secret_v1" "bill_token" {
   metadata {
     name = "bill-token"
     annotations = {
-      "kubernetes.io/service-account.name": "bill"
+      "kubernetes.io/service-account.name" : "bill"
     }
   }
   type = "kubernetes.io/service-account-token"

@@ -1,30 +1,23 @@
 terraform {
   required_providers {
     kubernetes = {
-        source = "hashicorp/kubernetes"
+      source = "hashicorp/kubernetes"
     }
     helm = {
-        source = "hashicorp/helm"
+      source = "hashicorp/helm"
     }
-  }
-}
-
-data "kubernetes_service_v1" "traefik" {
-  metadata {
-    name = "traefik"
-    namespace = "kube-system"
   }
 }
 
 resource "helm_release" "pihole" {
-  name = "pihole"
-  repository = "https://mojo2600.github.io/pihole-kubernetes/"
-  chart = "pihole"
-  version = "2.35.0"
-  namespace = "pihole-system"
+  name             = "pihole"
+  repository       = "https://mojo2600.github.io/pihole-kubernetes/"
+  chart            = "pihole"
+  version          = "2.35.0"
+  namespace        = "pihole-system"
   create_namespace = true
   values = [
-<<-EOF
+    <<-EOF
 podDisruptionBudget:
   enabled: true
 
@@ -79,9 +72,9 @@ EOF
 resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Certificate"
+    "kind"       = "Certificate"
     "metadata" = {
-      "name" = "pihole-billv-ca"
+      "name"      = "pihole-billv-ca"
       "namespace" = "pihole-system"
     }
     "spec" = {
@@ -100,9 +93,9 @@ resource "kubernetes_manifest" "certificate_authentik_star_billv_ca" {
 resource "kubernetes_manifest" "middleware_admin" {
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
-    "kind" = "Middleware"
+    "kind"       = "Middleware"
     "metadata" = {
-      "name" = "add-admin"
+      "name"      = "add-admin"
       "namespace" = "pihole-system"
     }
     "spec" = {
@@ -116,9 +109,9 @@ resource "kubernetes_manifest" "middleware_admin" {
 resource "kubernetes_manifest" "middleware_ipallowlist" {
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
-    "kind" = "Middleware"
+    "kind"       = "Middleware"
     "metadata" = {
-      "name" = "allowlist"
+      "name"      = "allowlist"
       "namespace" = "pihole-system"
     }
     "spec" = {
@@ -137,22 +130,22 @@ resource "kubernetes_manifest" "middleware_ipallowlist" {
 resource "kubernetes_manifest" "ingressroute" {
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
-    "kind" = "IngressRoute"
+    "kind"       = "IngressRoute"
     "metadata" = {
-      "name" = "pihole"
+      "name"      = "pihole"
       "namespace" = "pihole-system"
     }
     "spec" = {
       "entryPoints" = ["websecure"]
       "routes" = [{
-        "kind" = "Rule"
+        "kind"  = "Rule"
         "match" = "Host(`pihole.billv.ca`)"
         "middlewares" = [{
-          "name" = "authentik"
+          "name"      = "authentik"
           "namespace" = "pihole-system"
-        # },{
-        #   "name" = "add-admin"
-        #   "namespace" = "pihole-system"
+          # },{
+          #   "name" = "add-admin"
+          #   "namespace" = "pihole-system"
         }]
         "services" = [{
           "kind" = "Service"
@@ -170,9 +163,9 @@ resource "kubernetes_manifest" "ingressroute" {
 resource "kubernetes_manifest" "certificate_piholeassistant_billv_ca" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Certificate"
+    "kind"       = "Certificate"
     "metadata" = {
-      "name" = "piholeassistant-billv-ca"
+      "name"      = "piholeassistant-billv-ca"
       "namespace" = "pihole-system"
     }
     "spec" = {
@@ -191,18 +184,18 @@ resource "kubernetes_manifest" "certificate_piholeassistant_billv_ca" {
 resource "kubernetes_manifest" "assistant_ingressroute" {
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
-    "kind" = "IngressRoute"
+    "kind"       = "IngressRoute"
     "metadata" = {
-      "name" = "piholeassistant"
+      "name"      = "piholeassistant"
       "namespace" = "pihole-system"
     }
     "spec" = {
       "entryPoints" = ["websecure"]
       "routes" = [{
-        "kind" = "Rule"
+        "kind"  = "Rule"
         "match" = "Host(`piholeassistant.billv.ca`)"
         "middlewares" = [{
-          "name" = "allowlist"
+          "name"      = "allowlist"
           "namespace" = "pihole-system"
         }]
         "services" = [{
