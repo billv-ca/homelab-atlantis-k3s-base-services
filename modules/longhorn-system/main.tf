@@ -105,6 +105,10 @@ resource "helm_release" "longhorn" {
     {
       name  = "persistence.defaultDiskSelector.selector"
       value = "nvme"
+    },
+    {
+      name  = "persistence.defaultClassReplicaCount"
+      value = 2
     }
   ]
 }
