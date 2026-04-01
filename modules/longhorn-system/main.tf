@@ -103,6 +103,10 @@ resource "helm_release" "longhorn" {
       value = "true"
     },
     {
+      name  = "defaultSettings.replicaAutoBalance"
+      value = "best-effort"
+    },
+    {
       name  = "persistence.defaultDiskSelector.selector"
       value = "nvme"
     },
