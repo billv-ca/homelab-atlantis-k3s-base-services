@@ -103,6 +103,10 @@ resource "helm_release" "longhorn" {
       value = "true"
     },
     {
+      name  = "defaultSettings.replicaAutoBalance"
+      value = "best-effort"
+    },
+    {
       name  = "persistence.defaultDiskSelector.selector"
       value = "nvme"
     },
@@ -174,25 +178,25 @@ resource "kubernetes_manifest" "node2" {
     "apiVersion" = "longhorn.io/v1beta2"
     "kind"       = "Node"
     metadata = {
-      name      = "k8s-2"
+      name      = "node-2"
       namespace = "longhorn-system"
     }
     spec = {
       "allowScheduling" = true
       disks = {
-        "default-disk-5d318904beec535b" = {
+        "default-disk-fa3b81f8e7fb5585" = {
           "allowScheduling" : true
           "diskDriver" : ""
           "diskType" : "filesystem"
           "evictionRequested" : false
           "path" : "/var/lib/longhorn/"
-          "storageReserved" : 12133282611
+          "storageReserved" : 74937639321
           "tags" : ["nvme"]
         }
       }
       "evictionRequested" : false
       "instanceManagerCPURequest" : 0
-      "name" : "k8s-2"
+      "name" : "node-2"
     }
   }
 }
