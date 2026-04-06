@@ -164,6 +164,15 @@ resource "kubernetes_manifest" "node1" {
           "path" : "/var/lib/longhorn/"
           "storageReserved" : 74088185856
           "tags" : ["nvme"]
+        },
+        "disk-1" = {
+          "allowScheduling" : true
+          "diskDriver" : ""
+          "diskType" : "filesystem"
+          "evictionRequested" : false
+          "path" : "/mnt"
+          "storageReserved" : 0
+          "tags" : ["sata"]
         }
       }
       "evictionRequested" : false
@@ -192,6 +201,15 @@ resource "kubernetes_manifest" "node2" {
           "path" : "/var/lib/longhorn/"
           "storageReserved" : 74937639321
           "tags" : ["nvme"]
+        },
+        "disk-1" = {
+          "allowScheduling" : true
+          "diskDriver" : ""
+          "diskType" : "filesystem"
+          "evictionRequested" : false
+          "path" : "/mnt"
+          "storageReserved" : 0
+          "tags" : ["sata"]
         }
       }
       "evictionRequested" : false
