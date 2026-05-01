@@ -18,6 +18,10 @@ resource "helm_release" "pihole" {
   create_namespace = true
   values = [
     <<-EOF
+image:
+  repository: "pihole/pihole"
+  tag: "2025.06.2"
+
 podDisruptionBudget:
   enabled: true
 
