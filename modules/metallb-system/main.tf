@@ -16,9 +16,4 @@ resource "helm_release" "metallb" {
   create_namespace = false
   namespace = "metallb-system"
   name = "metallb"
-
-  set = [{
-    name = "speaker.frr.enabled"
-    value = true
-  }]
 }
