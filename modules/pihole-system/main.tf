@@ -57,15 +57,6 @@ persistentVolumeClaim:
 
 maxUnavailable: 1
 
-# enables cloudflare tunnel sidecar container
-# and sets upstream dns in pihole to leverage it
-doh:
-  enabled: true
-  pullPolicy: IfNotPresent
-  envVars: {
-    DOH_UPSTREAM: "https://1.1.1.1/dns-query"
-  }
-
 dnsmasq:
   customSettings:
     - except-interface=nonexisting
