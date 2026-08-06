@@ -179,6 +179,10 @@ resource "kubernetes_manifest" "ingressroute" {
       "routes" = [{
         "kind"  = "Rule"
         "match" = "Host(`auth.billv.ca`)"
+        "middlewares" = [{
+          "name"      = "cors"
+          "namespace" = "authentik"
+        }]
         "services" = [{
           "kind" = "Service"
           "name" = "authentik-server"
@@ -187,6 +191,25 @@ resource "kubernetes_manifest" "ingressroute" {
       }]
       "tls" = {
         "secretName" = "auth-billv-ca"
+      }
+    }
+  }
+}
+
+resource "kubernetes_manifest" "cors_middleware" {
+  manifest = {
+    "apiVersion" = "traefik.io/v1alpha1"
+    "kind"       = "Middleware"
+    "metadata" = {
+      "name"      = "cors"
+      "namespace" = "authentik"
+    }
+    "spec" = {
+      "headers" = {
+        "accessControlAllowMethods": ["GET"]
+        "accessControlAllowOriginListRegex": ["https:\\/\\/.*\\.billv\\.ca"]
+        "accessControlMaxAge": "300"
+        "accessControlAllowCredentials": "true"
       }
     }
   }
