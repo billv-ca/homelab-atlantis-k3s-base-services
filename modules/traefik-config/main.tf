@@ -87,8 +87,9 @@ resource "kubernetes_manifest" "cors_middleware" {
     "spec" = {
       "headers" = {
         "accessControlAllowMethods": ["GET", "OPTIONS"]
-        "accessControlAllowOriginListRegex": ["https:\\/\\/.*\\.billv\\.ca"]
+        "accessControlAllowOriginListRegex": ["https:\\/\\/auth\\.billv\\.ca", "https:\\/\\/.*\\.billv\\.ca"]
         "accessControlMaxAge": "300"
+        "addVaryHeader": "true"
         "accessControlAllowCredentials": "true"
       }
     }
