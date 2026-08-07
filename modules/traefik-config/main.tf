@@ -23,7 +23,7 @@ providers:
 priorityClassName: "system-cluster-critical"
 image:
     repository: "traefik"
-    tag: "v3.4.1"
+    tag: "v3.3.6"
 tolerations:
     - key: "CriticalAddonsOnly"
       operator: "Exists"
@@ -40,30 +40,57 @@ ports:
         forwardedHeaders:
             trustedIPs:
                 - 10.0.0.0/8
-#        http:
-#            middlewares:
-#                cors:
-#                    headers:
-#                      accessControlAllowMethods:
-#                        - GET
-#                      accessControlAllowCredentials: true
-#                      accessControlAllowOriginListRegex:
-#                        - "https:\\/\\/.*\\.billv\\.ca"
-#                      accessControlMaxAge: 300
+        middlewares:
+          - kube-system-cors@kubernetescrd
 logs:
     access:
         enabled: true
-
-#ingressRoute:
-#  dashboard:
-#    enabled: true
-#    matchRule: Host(`traefik.billv.ca`)
-#    services:
-#      - name: api@internal
-#        kind: TraefikService
-#    entryPoints: ["websecure"]
-#    middlewares: ["authentik@kube-system"]
 EOF
          }
     }
+}
+
+resource "kubernetes_manifest" "ingressroute" {
+  manifest = {
+    "apiVersion" = "traefik.io/v1alpha1"
+    "kind"       = "IngressRoute"
+    "metadata" = {
+      "name"      = "dashboard"
+      "namespace" = "kube-system"
+    }
+    "spec" = {
+      "entryPoints" = ["websecure"]
+      "routes" = [{
+        "kind"  = "Rule"
+        "match" = "Host(`traefik.billv.ca`)"
+        "middlewares" = [{
+          "name"      = "authentik"
+          "namespace" = "kube-system"
+        }]
+        "services" = [{
+          "kind" = "TraefikService"
+          "name" = "api@internal"
+        }]
+      }]
+    }
+  }
+}
+
+resource "kubernetes_manifest" "cors_middleware" {
+  manifest = {
+    "apiVersion" = "traefik.io/v1alpha1"
+    "kind"       = "Middleware"
+    "metadata" = {
+      "name"      = "cors"
+      "namespace" = "kube-system"
+    }
+    "spec" = {
+      "headers" = {
+        "accessControlAllowMethods": ["GET", "OPTIONS"]
+        "accessControlAllowOriginListRegex": ["https:\\/\\/.*\\.billv\\.ca"]
+        "accessControlMaxAge": "300"
+        "accessControlAllowCredentials": "true"
+      }
+    }
+  }
 }
