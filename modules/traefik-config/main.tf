@@ -1,4 +1,8 @@
 resource "kubernetes_manifest" "traefik_entrypoints" {
+  field_manager {
+    name           = "terraform"
+    force_conflicts = true
+  }
     manifest = {
         "apiVersion" = "helm.cattle.io/v1"
         "kind" = "HelmChartConfig"
@@ -19,7 +23,7 @@ providers:
 priorityClassName: "system-cluster-critical"
 image:
     repository: "traefik"
-    tag: "v3.4.1"
+    tag: "v3.3.6"
 tolerations:
     - key: "CriticalAddonsOnly"
       operator: "Exists"
@@ -36,10 +40,58 @@ ports:
         forwardedHeaders:
             trustedIPs:
                 - 10.0.0.0/8
+        middlewares:
+          - kube-system-cors@kubernetescrd
 logs:
     access:
         enabled: true
 EOF
          }
     }
+}
+
+resource "kubernetes_manifest" "ingressroute" {
+  manifest = {
+    "apiVersion" = "traefik.io/v1alpha1"
+    "kind"       = "IngressRoute"
+    "metadata" = {
+      "name"      = "dashboard"
+      "namespace" = "kube-system"
+    }
+    "spec" = {
+      "entryPoints" = ["websecure"]
+      "routes" = [{
+        "kind"  = "Rule"
+        "match" = "Host(`traefik.billv.ca`)"
+        "middlewares" = [{
+          "name"      = "authentik"
+          "namespace" = "kube-system"
+        }]
+        "services" = [{
+          "kind" = "TraefikService"
+          "name" = "api@internal"
+        }]
+      }]
+    }
+  }
+}
+
+resource "kubernetes_manifest" "cors_middleware" {
+  manifest = {
+    "apiVersion" = "traefik.io/v1alpha1"
+    "kind"       = "Middleware"
+    "metadata" = {
+      "name"      = "cors"
+      "namespace" = "kube-system"
+    }
+    "spec" = {
+      "headers" = {
+        "accessControlAllowMethods": ["GET", "OPTIONS"]
+        "accessControlAllowOriginListRegex": ["https:\\/\\/auth\\.billv\\.ca", "https:\\/\\/.*\\.billv\\.ca"]
+        "accessControlMaxAge": "300"
+        "addVaryHeader": "true"
+        "accessControlAllowCredentials": "true"
+      }
+    }
+  }
 }
