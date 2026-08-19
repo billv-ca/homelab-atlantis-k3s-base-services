@@ -77,6 +77,10 @@ resource "kubernetes_manifest" "ingressroute" {
 }
 
 resource "kubernetes_manifest" "cors_middleware" {
+  field_manager {
+    name           = "terraform"
+    force_conflicts = true
+  }
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
     "kind"       = "Middleware"
