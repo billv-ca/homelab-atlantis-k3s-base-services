@@ -230,10 +230,6 @@ resource "helm_release" "atlantis" {
     type = "string"
   },
   {
-    name = "volumeClaim.enabled"
-    value = "false"
-  },
-  {
     name = "orgAllowlist"
     value = "github.com/billv-ca/homelab-atlantis*"
   },
@@ -248,6 +244,10 @@ resource "helm_release" "atlantis" {
   {
     name = "lifecycle.preStop.exec.command[2]"
     value = "while pgrep -x \"terraform|tofu|terragrunt\" > /dev/null; do sleep 1; done"
+  },
+  {
+    name = "podDisruptionBudget.enabled"
+    value = "true"
   }
 ]
 
