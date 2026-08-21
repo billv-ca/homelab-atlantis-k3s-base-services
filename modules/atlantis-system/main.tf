@@ -230,8 +230,8 @@ resource "helm_release" "atlantis" {
     type = "string"
   },
   {
-    name = "volumeClaim.storageClassName"
-    value = "longhorn"
+    name = "volumeClaim.enabled"
+    value = "false"
   },
   {
     name = "orgAllowlist"
@@ -246,6 +246,18 @@ resource "helm_release" "atlantis" {
   {
     name = "githubApp.secret"
     value = data.aws_ssm_parameter.atlantis-secret.value
+  },
+  {
+    name = "lifecycle.preStop.exec.command[0]"
+    value = "/bin/sh"
+  },
+  {
+    name = "lifecycle.preStop.exec.command[1]"
+    value = "-c"
+  },
+  {
+    name = "lifecycle.preStop.exec.command[2]"
+    value = "while pgrep -x \"terraform|tofu|terragrunt\" > /dev/null; do sleep 1; done"
   },
   {
     name = "aws.credentials"
