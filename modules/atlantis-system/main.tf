@@ -236,16 +236,6 @@ resource "helm_release" "atlantis" {
   {
     name = "orgAllowlist"
     value = "github.com/billv-ca/homelab-atlantis*"
-  }
-]
-
-  set_sensitive = [{
-    name = "githubApp.key"
-    value = data.aws_ssm_parameter.atlantis-key.value
-  },
-  {
-    name = "githubApp.secret"
-    value = data.aws_ssm_parameter.atlantis-secret.value
   },
   {
     name = "lifecycle.preStop.exec.command[0]"
@@ -258,6 +248,16 @@ resource "helm_release" "atlantis" {
   {
     name = "lifecycle.preStop.exec.command[2]"
     value = "while pgrep -x \"terraform|tofu|terragrunt\" > /dev/null; do sleep 1; done"
+  }
+]
+
+  set_sensitive = [{
+    name = "githubApp.key"
+    value = data.aws_ssm_parameter.atlantis-key.value
+  },
+  {
+    name = "githubApp.secret"
+    value = data.aws_ssm_parameter.atlantis-secret.value
   },
   {
     name = "aws.credentials"
