@@ -26,6 +26,10 @@ module "k8s_amd_gpu" {
   source = "./modules/k8s-amd-gpu"
 }
 
+module "k8s_intel_gpu" {
+  source = "./modules/k8s-intel-gpu"
+}
+
 module "metallb-system" {
   source = "./modules/metallb-system"
 }
