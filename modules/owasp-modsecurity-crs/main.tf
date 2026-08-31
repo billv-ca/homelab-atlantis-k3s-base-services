@@ -32,6 +32,11 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
             container_port = 8080
           }
 
+          env {
+            name = "BACKEND"
+            value = "http://whoami.kube-system.svc.cluster.local"
+          }
+
           image_pull_policy = "IfNotPresent"
         }
       }
@@ -57,6 +62,72 @@ resource "kubernetes_service_v1" "owasp_modsecurity_crs" {
       name        = "http"
       port        = 80
       target_port = 8080
+      protocol    = "TCP"
+    }
+
+    type = "ClusterIP"
+  }
+}
+
+resource "kubernetes_deployment_v1" "whoami" {
+  metadata {
+    name      = "whoami"
+    namespace = "kube-system"
+    labels = {
+      app = "whoami"
+    }
+  }
+
+  spec {
+    replicas = 2
+
+    selector {
+      match_labels = {
+        app = "whoami"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "whoami"
+        }
+      }
+
+      spec {
+        container {
+          name  = "whoami"
+          image = "traefik/whoami"
+
+          port {
+            container_port = 80
+          }
+
+          image_pull_policy = "IfNotPresent"
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service_v1" "whoami" {
+  metadata {
+    name      = "whoami"
+    namespace = "kube-system"
+    labels = {
+      app = "whoami"
+    }
+  }
+
+  spec {
+    selector = {
+      app = "whoami"
+    }
+
+    port {
+      name        = "http"
+      port        = 80
+      target_port = 80
       protocol    = "TCP"
     }
 
