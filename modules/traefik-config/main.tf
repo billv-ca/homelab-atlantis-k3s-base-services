@@ -45,6 +45,11 @@ ports:
 logs:
     access:
         enabled: true
+experimental:
+  plugins:
+    traefik-modsecurity-plugin:
+      moduleName: "github.com/madebymode/traefik-modsecurity-plugin"
+      version: "v1.6.0"
 EOF
          }
     }
