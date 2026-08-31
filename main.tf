@@ -59,6 +59,10 @@ module "atlantis" {
   authentik_api_key = module.authentik_system.authentik_api_key
 }
 
+module "owasp_modsecurity_crs" {
+  source = "./modules/owasp-modsecurity-crs"
+}
+
 module "traefik_config" {
   source = "./modules/traefik-config"
 }
