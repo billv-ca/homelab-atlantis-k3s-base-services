@@ -41,6 +41,7 @@ ports:
             trustedIPs:
                 - 10.0.0.0/8
         middlewares:
+          - kube-system-waf@kubernetescrd
           - kube-system-cors@kubernetescrd
 logs:
     access:
