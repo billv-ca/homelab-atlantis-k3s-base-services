@@ -34,7 +34,7 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
 
           env {
             name = "BACKEND"
-            value = "http://dummy.kube-system.svc.cluster.local"
+            value = "http://whoami.kube-system.svc.cluster.local"
           }
 
           image_pull_policy = "IfNotPresent"
