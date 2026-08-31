@@ -41,6 +41,7 @@ ports:
             trustedIPs:
                 - 10.0.0.0/8
         middlewares:
+          - kube-system-waf@kubernetescrd
           - kube-system-cors@kubernetescrd
 logs:
     access:
@@ -100,6 +101,33 @@ resource "kubernetes_manifest" "cors_middleware" {
         "accessControlMaxAge": "300"
         "addVaryHeader": "true"
         "accessControlAllowCredentials": "true"
+      }
+    }
+  }
+}
+
+resource "kubernetes_manifest" "waf" {
+  field_manager {
+    name           = "terraform"
+    force_conflicts = true
+  }
+  manifest = {
+    "apiVersion" = "traefik.io/v1alpha1"
+    "kind"       = "Middleware"
+    "metadata" = {
+      "name"      = "waf"
+      "namespace" = "kube-system"
+    }
+    "spec" = {
+      "plugin" = {
+        "traefik-modsecurity-plugin" = {
+            "BadRequestsThresholdCount" = "25"
+            "BadRequestsThresholdPeriodSecs" = "600"
+            "JailEnabled" = "true"
+            "JailTimeDurationSecs" = "600"
+            "ModsecurityUrl" = "http://owasp-modsecurity-crs.kube-system.svc.cluster.local:80"
+            "TimeoutMillis" = "2000"
+        }
       }
     }
   }
