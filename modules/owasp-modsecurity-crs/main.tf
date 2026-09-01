@@ -37,6 +37,17 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
             value = "http://whoami.kube-system.svc.cluster.local"
           }
 
+          env {
+            name = "ALLOWED_METHODS"
+            value = "GET HEAD POST PUT DELETE OPTIONS"
+          }
+
+          env {
+            name = "MODSEC_RULE_ENGINE"
+            #value = "DetectionOnly"
+            value = "On"
+          }
+
           image_pull_policy = "IfNotPresent"
         }
       }
