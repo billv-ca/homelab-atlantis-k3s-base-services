@@ -38,6 +38,11 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
           }
 
           env {
+            name = "ALLOWED_METHODS"
+            value = "GET HEAD POST PUT DELETE OPTIONS"
+          }
+
+          env {
             name = "MODSEC_RULE_ENGINE"
             #value = "DetectionOnly"
             value = "On"
