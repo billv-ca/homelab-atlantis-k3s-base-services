@@ -39,13 +39,23 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
 
           env {
             name = "ALLOWED_METHODS"
-            value = "GET HEAD POST PUT DELETE OPTIONS"
+            value = "GET HEAD POST PUT DELETE OPTIONS PROPFIND"
           }
 
           env {
             name = "MODSEC_RULE_ENGINE"
             #value = "DetectionOnly"
             value = "On"
+          }
+
+          env {
+            name = "MODSEC_REQ_BODY_ACCESS"
+            value = "Off"
+          }
+
+          env {
+            name = "MODSEC_RESP_BODY_ACCESS"
+            value = "Off"
           }
 
           image_pull_policy = "IfNotPresent"
