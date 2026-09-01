@@ -37,6 +37,12 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
             value = "http://whoami.kube-system.svc.cluster.local"
           }
 
+          env {
+            name = "MODSEC_RULE_ENGINE"
+            #value = "DetectionOnly"
+            value = "On"
+          }
+
           image_pull_policy = "IfNotPresent"
         }
       }
