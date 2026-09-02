@@ -18,6 +18,13 @@ resource "helm_release" "falco" {
     {
       name  = "falcosidekick.webui.disableauth"
       value = "true"
+    },
+    {
+        name = "falco.customRules"
+        value = <<EOT
+- macro: user_known_contact_k8s_api_server_activities
+  condition: (k8s.ns.name in ("authentik", "monitoring", "authentik"))
+    EOT
     }
   ]
 }
