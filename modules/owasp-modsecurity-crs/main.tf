@@ -12,6 +12,14 @@ SecRuleUpdateTargetById 932235 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932140 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932370 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 941180 "!ARGS:json.issue.body"
+SecRuleUpdateTargetById 932235 "!ARGS:json.pull_request.body"
+SecRuleUpdateTargetById 932140 "!ARGS:json.pull_request.body"
+SecRuleUpdateTargetById 932370 "!ARGS:json.pull_request.body"
+SecRuleUpdateTargetById 941180 "!ARGS:json.pull_request.body"
+SecRuleUpdateTargetById 932235 "!ARGS:json.check_suite.head_commit.message"
+SecRuleUpdateTargetById 932140 "!ARGS:json.check_suite.head_commit.message"
+SecRuleUpdateTargetById 932370 "!ARGS:json.check_suite.head_commit.message"
+SecRuleUpdateTargetById 941180 "!ARGS:json.check_suite.head_commit.message"
 EOF
   }
 }
