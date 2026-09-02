@@ -6,26 +6,22 @@ resource "helm_release" "falco" {
   namespace        = "falco"
   create_namespace = true
 
-  set = [
-    {
-      name  = "falcosidekick.enabled"
-      value = "true"
-    },
-    {
-      name  = "falcosidekick.webui.enabled"
-      value = "true"
-    },
-    {
-      name  = "falcosidekick.webui.disableauth"
-      value = "true"
-    },
-    {
-        name = "falco.customRules"
-        value = <<EOT
-- macro: user_known_contact_k8s_api_server_activities
-  condition: (k8s.ns.name in ("authentik", "monitoring", "authentik"))
-    EOT
-    }
+  values = [
+    <<-EOF
+falcosidekick:
+    enabled: true
+    webui:
+        enabled: true
+        disableauth: true
+falco:
+    customRules:
+        overrides.yaml: |-
+            - macro: user_known_contact_k8s_api_server_activities
+            condition: (k8s.ns.name in ("monitoring", "atlantis-system", "authentik"))
+
+            - list: trusted_images
+            items: ["docker.io/pihole/pihole"]
+EOF
   ]
 }
 
