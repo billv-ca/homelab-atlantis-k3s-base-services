@@ -30,6 +30,10 @@ module "k8s_intel_gpu" {
   source = "./modules/k8s-intel-gpu"
 }
 
+module "falco" {
+  source = "./modules/falco"
+}
+
 module "metallb-system" {
   source = "./modules/metallb-system"
 }
