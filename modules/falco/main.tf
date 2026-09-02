@@ -1,3 +1,7 @@
+data "aws_ssm_parameter" "smtp" {
+  name = "zoho-smtp-creds"
+}
+
 resource "helm_release" "falco" {
   name             = "falco"
   repository       = "https://falcosecurity.github.io/charts"
@@ -6,6 +10,12 @@ resource "helm_release" "falco" {
   namespace        = "falco"
   create_namespace = true
 
+  set_sensitive = [
+    {
+      name  = "falcosidekick.config.smtp.password"
+      value = data.aws_ssm_parameter.smtp.value
+    },
+  ]
   values = [
     <<-EOF
 falcosidekick:
@@ -13,6 +23,16 @@ falcosidekick:
     webui:
         enabled: true
         disableauth: true
+    config:
+        smtp:
+            hostport: "smtp.zoho.com:587"
+            tls: true
+            authmechanism: "plain"
+            user: "bill@vandenberk.me"
+            from: "bill@vandenberk.me"
+            to: "bill@vandenberk.me"
+            outputformat: "html"
+            minimumpriority: "critical"
 falco:
     customRules:
         overrides.yaml: |-
