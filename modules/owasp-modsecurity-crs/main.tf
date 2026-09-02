@@ -82,7 +82,7 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
 
           env {
             name = "ALLOWED_METHODS"
-            value = "GET HEAD POST PUT DELETE OPTIONS PROPFIND PATCH"
+            value = "GET HEAD POST PUT DELETE OPTIONS PATCH COPY LOCK MKCOL MOVE UNLOCK PROPFIND PROPPATCH"
           }
 
           env {
