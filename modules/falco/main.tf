@@ -6,14 +6,20 @@ resource "helm_release" "falco" {
   namespace        = "falco"
   create_namespace = true
 
-  set = [{
-    name  = "falcosidekick.enabled"
-    value = "true"
-  },
-  {
-    name  = "falcosidekick.webui.enabled"
-    value = "true"
-  }]
+  set = [
+    {
+      name  = "falcosidekick.enabled"
+      value = "true"
+    },
+    {
+      name  = "falcosidekick.webui.enabled"
+      value = "true"
+    },
+    {
+      name  = "falcosidekick.webui.disableauth"
+      value = "true"
+    }
+  ]
 }
 
 
@@ -57,8 +63,8 @@ resource "kubernetes_manifest" "ingressroute" {
         }]
         "services" = [{
           "kind" = "Service"
-          "name" = "falcosidekick-ui"
-          "port" = 6379
+          "name" = "falco-falcosidekick-ui"
+          "port" = 2802
         }]
       }]
       "tls" = {
