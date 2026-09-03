@@ -20,9 +20,11 @@ resource "helm_release" "falco" {
     <<-EOF
 falcosidekick:
     enabled: true
+    replicaCount: 1
     webui:
         enabled: true
         disableauth: true
+        replicaCount: 1
     config:
         smtp:
             hostport: "smtp.zoho.com:587"
@@ -33,14 +35,17 @@ falcosidekick:
             to: "bill@vandenberk.me"
             outputformat: "html"
             minimumpriority: "critical"
-falco:
-    customRules:
-        overrides.yaml: |-
-            - macro: user_known_contact_k8s_api_server_activities
-            condition: (k8s.ns.name in ("monitoring", "atlantis-system", "authentik"))
+customRules:
+    overrides.yaml: |-
+        - macro: user_known_contact_k8s_api_server_activities
+          condition: (k8s.ns.name in ("monitoring", "atlantis-system", "authentik"))
+          override:
+            condition: replace
 
-            - list: trusted_images
-            items: ["docker.io/pihole/pihole"]
+        - list: falco_privileged_images
+          items: [docker.io/pihole/pihole]
+          override:
+            items: append
 EOF
   ]
 }

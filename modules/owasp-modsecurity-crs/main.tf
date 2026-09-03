@@ -40,7 +40,7 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1
 
     selector {
       match_labels = {
@@ -153,7 +153,7 @@ resource "kubernetes_deployment_v1" "whoami" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1
 
     selector {
       match_labels = {
