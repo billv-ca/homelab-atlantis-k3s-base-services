@@ -38,11 +38,11 @@ falcosidekick:
 customRules:
     overrides.yaml: |-
         - macro: user_known_contact_k8s_api_server_activities
-          condition: (k8s.ns.name in ("monitoring", "atlantis-system", "authentik"))
+          condition: (k8s.ns.name in ("monitoring", "atlantis-system", "authentik", "headlamp"))
           override:
             condition: replace
 
-        - list: falco_privileged_images
+        - list: known_drop_and_execute_containers
           items: [docker.io/pihole/pihole]
           override:
             items: append
