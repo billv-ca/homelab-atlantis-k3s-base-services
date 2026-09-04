@@ -38,7 +38,7 @@ falcosidekick:
 customRules:
     overrides.yaml: |-
         - macro: user_known_contact_k8s_api_server_activities
-          condition: (k8s.ns.name in ("monitoring", "atlantis-system", "authentik", "headlamp"))
+          condition: (k8s.ns.name in ("monitoring", "atlantis-system", "authentik", "headlamp", "longhorn-system"))
           override:
             condition: replace
 
