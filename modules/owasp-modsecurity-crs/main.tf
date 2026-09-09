@@ -8,6 +8,7 @@ resource "kubernetes_config_map_v1" "exclusion_rules" {
 SecRuleUpdateTargetById 932235 "!ARGS:json.content"
 SecRuleUpdateTargetById 941100 "!ARGS:json.content"
 SecRuleUpdateTargetById 941160 "!ARGS:json.content"
+SecRuleUpdateTargetById 942550 "!ARGS:json.content"
 SecRuleUpdateTargetById 932235 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932140 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932230 "!ARGS:json.issue.body"
@@ -86,6 +87,13 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
             value = "http://whoami.kube-system.svc.cluster.local"
           }
 
+<<<<<<< HEAD
+          env {
+            name = "BACKEND"
+            value = "http://whoami.kube-system.svc.cluster.local"
+          }
+
+=======
           env {
             name = "ALLOWED_METHODS"
             value = "GET HEAD POST PUT DELETE OPTIONS PATCH COPY LOCK MKCOL MOVE UNLOCK PROPFIND PROPPATCH"
@@ -111,6 +119,7 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
             value = "On"
           }
 
+>>>>>>> 750c1399571aac7f921a3b827377f8bc5faa82f1
           image_pull_policy = "IfNotPresent"
         }
       }
