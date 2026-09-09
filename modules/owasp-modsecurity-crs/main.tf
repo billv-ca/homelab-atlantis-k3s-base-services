@@ -8,6 +8,7 @@ resource "kubernetes_config_map_v1" "exclusion_rules" {
 SecRuleUpdateTargetById 932235 "!ARGS:json.content"
 SecRuleUpdateTargetById 941100 "!ARGS:json.content"
 SecRuleUpdateTargetById 941160 "!ARGS:json.content"
+SecRuleUpdateTargetById 942550 "!ARGS:json.content"
 SecRuleUpdateTargetById 932235 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932140 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932230 "!ARGS:json.issue.body"
