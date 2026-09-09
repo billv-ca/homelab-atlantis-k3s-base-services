@@ -33,6 +33,8 @@ EOF
   }
 }
 
+#white space change
+
 resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
   metadata {
     name      = "owasp-modsecurity-crs"
