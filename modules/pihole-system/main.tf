@@ -99,6 +99,26 @@ resource "kubernetes_manifest" "middleware_admin" {
       "redirectRegex" = {
         "regex" = "^https://pihole.billv.ca/([^(admin).*])"
         "replacement" = "https://pihole.billv.ca/admin/$${1}"
+        "permanent" = "true"
+      }
+    }
+  }
+}
+
+
+resource "kubernetes_manifest" "middleware_admin_base" {
+  manifest = {
+    "apiVersion" = "traefik.io/v1alpha1"
+    "kind"       = "Middleware"
+    "metadata" = {
+      "name"      = "admin-redirect-base"
+      "namespace" = "pihole-system"
+    }
+    "spec" = {
+      "redirectRegex" = {
+        "regex" = "^https://pihole.billv.ca/?"
+        "replacement" = "https://pihole.billv.ca/admin/"
+        "permanent" = "true"
       }
     }
   }
@@ -143,6 +163,9 @@ resource "kubernetes_manifest" "ingressroute" {
             "namespace" = "pihole-system"
           },{
             "name" = "admin-redirect"
+            "namespace" = "pihole-system"
+        },{
+            "name" = "admin-redirect-base"
             "namespace" = "pihole-system"
         }]
         "services" = [{
