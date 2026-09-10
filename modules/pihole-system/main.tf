@@ -106,7 +106,7 @@ resource "kubernetes_manifest" "middleware_admin" {
 }
 
 
-resource "kubernetes_manifest" "middleware_admin" {
+resource "kubernetes_manifest" "middleware_admin_base" {
   manifest = {
     "apiVersion" = "traefik.io/v1alpha1"
     "kind"       = "Middleware"
