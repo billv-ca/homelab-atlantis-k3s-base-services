@@ -98,7 +98,7 @@ resource "kubernetes_manifest" "middleware_admin" {
     "spec" = {
       "redirectRegex" = {
         "regex" = "^https://pihole.billv.ca/([^(admin).*])"
-        "replacement" = "https://pihole.billv.ca/admin/\\$\\{1\\}"
+        "replacement" = "https://pihole.billv.ca/admin/\$\{1\}"
       }
     }
   }
