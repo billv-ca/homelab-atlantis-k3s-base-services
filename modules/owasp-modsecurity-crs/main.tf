@@ -99,7 +99,7 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
 
           env {
             name = "ALLOWED_REQUEST_CONTENT_TYPE"
-            value = "|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json| |application/offset+octet-stream|"
+            value = "|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json| |application/offset+octet-stream| |application/json-patch+json|"
           }
 
           env {
