@@ -116,7 +116,7 @@ resource "kubernetes_manifest" "middleware_admin_base" {
     }
     "spec" = {
       "redirectRegex" = {
-        "regex" = "^https://pihole.billv.ca/?$$"
+        "regex" = "^https://pihole.billv.ca/?$"
         "replacement" = "https://pihole.billv.ca/admin/"
         "permanent" = "true"
       }
