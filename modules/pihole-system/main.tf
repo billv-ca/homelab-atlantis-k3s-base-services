@@ -60,6 +60,8 @@ maxUnavailable: 1
 dnsmasq:
   customSettings:
     - except-interface=nonexisting
+  whitelist:
+    - cdn.cookielaw.org
 EOF
   ]
 }
@@ -136,11 +138,11 @@ resource "kubernetes_manifest" "ingressroute" {
         "kind"  = "Rule"
         "match" = "Host(`pihole.billv.ca`)"
         "middlewares" = [{
-          "name"      = "authentik"
-          "namespace" = "pihole-system"
-          # },{
-          #   "name" = "add-admin"
-          #   "namespace" = "pihole-system"
+            "name"      = "authentik"
+            "namespace" = "pihole-system"
+          },{
+            "name" = "add-admin"
+            "namespace" = "pihole-system"
         }]
         "services" = [{
           "kind" = "Service"
