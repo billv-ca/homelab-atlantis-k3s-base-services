@@ -92,12 +92,13 @@ resource "kubernetes_manifest" "middleware_admin" {
     "apiVersion" = "traefik.io/v1alpha1"
     "kind"       = "Middleware"
     "metadata" = {
-      "name"      = "add-admin"
+      "name"      = "admin-redirect"
       "namespace" = "pihole-system"
     }
     "spec" = {
-      "addPrefix" = {
-        "prefix" = "/admin"
+      "redirectRegex" = {
+        "regex" = "^https://pihole.billv.ca/([^(admin).*])"
+        "replacement" = "https://pihole.billv.ca/admin/${1}"
       }
     }
   }
@@ -141,7 +142,7 @@ resource "kubernetes_manifest" "ingressroute" {
             "name"      = "authentik"
             "namespace" = "pihole-system"
           },{
-            "name" = "add-admin"
+            "name" = "admin-redirect"
             "namespace" = "pihole-system"
         }]
         "services" = [{
