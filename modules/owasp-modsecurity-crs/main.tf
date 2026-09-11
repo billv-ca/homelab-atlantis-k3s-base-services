@@ -35,9 +35,18 @@ SecRuleUpdateTargetById 932250 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 932370 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 941180 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 942360 "!ARGS:json.check_suite.head_commit.message"
+SecRuleUpdateTargetById 932235 "!ARGS:json.issue.title"
+SecRuleUpdateTargetById 932140 "!ARGS:json.issue.title"
+SecRuleUpdateTargetById 932230 "!ARGS:json.issue.title"
+SecRuleUpdateTargetById 932250 "!ARGS:json.issue.title"
+SecRuleUpdateTargetById 932370 "!ARGS:json.issue.title"
+SecRuleUpdateTargetById 941180 "!ARGS:json.issue.title"
+SecRuleUpdateTargetById 942360 "!ARGS:json.issue.title"
+
 
 # OCIS
 SecRuleUpdateTargetById 942290 "!ARGS_NAMES:$expand"
+SecRuleUpdateTargetById 942290 "!ARGS_NAMES:$filter"
 EOF
   "REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf" = <<EOF
 # OCIS
