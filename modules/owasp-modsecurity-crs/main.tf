@@ -5,12 +5,15 @@ resource "kubernetes_config_map_v1" "exclusion_rules" {
   }
   data = {
     "RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf" = <<EOF
+# Trilium Notes
 SecRuleUpdateTargetById 932235 "!ARGS:json.content"
 SecRuleUpdateTargetById 941100 "!ARGS:json.content"
 SecRuleUpdateTargetById 941160 "!ARGS:json.content"
 SecRuleUpdateTargetById 932380 "!ARGS:json.content"
 SecRuleUpdateTargetById 942550 "!ARGS:json.content"
 SecRuleUpdateTargetById 949110 "!ARGS:json.content"
+
+# Atlantis
 SecRuleUpdateTargetById 932235 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932140 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932230 "!ARGS:json.issue.body"
@@ -32,6 +35,11 @@ SecRuleUpdateTargetById 932250 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 932370 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 941180 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 942360 "!ARGS:json.check_suite.head_commit.message"
+EOF
+  },
+  "REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf" = <<EOF
+# OCIS
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq ocis.billv.ca" "id:100130,phase:1,pass,nolog,ctl:ruleRemoveById=930130"
 EOF
   }
 }
@@ -83,6 +91,11 @@ resource "kubernetes_deployment_v1" "owasp_modsecurity_crs" {
             sub_path = "RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf"
           }
 
+          volume_mount {
+            name = "exclusion-rules"
+            mount_path = "/etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf"
+            sub_path = "REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf"
+          }
           port {
             container_port = 8080
           }
