@@ -47,6 +47,7 @@ SecRuleUpdateTargetById 942360 "!ARGS:json.issue.title"
 # OCIS
 SecRuleUpdateTargetById 942290 "!ARGS_NAMES:$expand"
 SecRuleUpdateTargetById 942290 "!ARGS_NAMES:$filter"
+SecRuleUpdateTargetById 942290 "!ARGS_NAMES:$orderby"
 EOF
   "REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf" = <<EOF
 # OCIS
