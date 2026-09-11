@@ -35,10 +35,14 @@ SecRuleUpdateTargetById 932250 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 932370 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 941180 "!ARGS:json.check_suite.head_commit.message"
 SecRuleUpdateTargetById 942360 "!ARGS:json.check_suite.head_commit.message"
+
+# OCIS
+SecRuleUpdateTargetById 942290 "!ARGS_NAMES:$expand"
 EOF
   "REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf" = <<EOF
 # OCIS
 SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq ocis.billv.ca" "id:100130,phase:1,pass,nolog,ctl:ruleRemoveById=930130"
+930130
 EOF
   }
 }
