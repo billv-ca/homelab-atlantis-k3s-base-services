@@ -13,9 +13,6 @@ SecRuleUpdateTargetById 932380 "!ARGS:json.content"
 SecRuleUpdateTargetById 942550 "!ARGS:json.content"
 SecRuleUpdateTargetById 949110 "!ARGS:json.content"
 
-
-941390
-
 # Atlantis
 SecRuleUpdateTargetById 930120 "!ARGS:json.issue.body"
 SecRuleUpdateTargetById 932235 "!ARGS:json.issue.body"
