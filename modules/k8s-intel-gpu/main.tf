@@ -10,7 +10,7 @@ resource "helm_release" "intel-device-plugins-gpu" {
   depends_on = [ helm_release.intel-device-plugins-operator ]
   repository = "https://intel.github.io/helm-charts"
   chart = "intel-device-plugins-gpu"
-  version = "0.36.0"
+  version = "0.37.0"
   create_namespace = true
   name = "intel-gpu"
 }
