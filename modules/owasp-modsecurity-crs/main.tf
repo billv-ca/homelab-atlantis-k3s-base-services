@@ -13,56 +13,6 @@ SecRuleUpdateTargetById 932380 "!ARGS:json.content"
 SecRuleUpdateTargetById 942550 "!ARGS:json.content"
 SecRuleUpdateTargetById 949110 "!ARGS:json.content"
 
-# Atlantis
-SecRuleUpdateTargetById 930120 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 932235 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 932140 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 932230 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 932250 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 932370 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 941180 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 941390 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 942140 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 942151 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 942190 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 942360 "!ARGS:json.issue.body"
-SecRuleUpdateTargetById 930120 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 932235 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 932140 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 932230 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 932250 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 932370 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 941180 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 941390 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 942140 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 942151 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 942190 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 942360 "!ARGS:json.pull_request.body"
-SecRuleUpdateTargetById 930120 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 932235 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 932140 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 932230 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 932250 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 932370 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 941180 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 941390 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 942140 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 942151 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 942190 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 942360 "!ARGS:json.check_suite.head_commit.message"
-SecRuleUpdateTargetById 930120 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 932235 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 932140 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 932230 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 932250 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 932370 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 941180 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 941390 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 942140 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 942151 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 942190 "!ARGS:json.issue.title"
-SecRuleUpdateTargetById 942360 "!ARGS:json.issue.title"
-
 # OCIS
 SecRuleUpdateTargetById 942290 "!ARGS_NAMES:$expand"
 SecRuleUpdateTargetById 942290 "!ARGS_NAMES:$filter"
@@ -74,6 +24,20 @@ SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq ocis.billv.ca" "id:100130,phase
 
 #Open WebUI
 SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq ai.billv.ca" "id:100131,phase:1,pass,nolog,ctl:ruleRemoveById=943110"
+
+#Atlantis
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100132,phase:1,pass,nolog,ctl:ruleRemoveById=930120
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100133,phase:1,pass,nolog,ctl:ruleRemoveById=932235
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100134,phase:1,pass,nolog,ctl:ruleRemoveById=932140
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100135,phase:1,pass,nolog,ctl:ruleRemoveById=932230
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100136,phase:1,pass,nolog,ctl:ruleRemoveById=932250
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100137,phase:1,pass,nolog,ctl:ruleRemoveById=932370
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100138,phase:1,pass,nolog,ctl:ruleRemoveById=941180
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100139,phase:1,pass,nolog,ctl:ruleRemoveById=941390
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100140,phase:1,pass,nolog,ctl:ruleRemoveById=942140
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100141,phase:1,pass,nolog,ctl:ruleRemoveById=942151
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100142,phase:1,pass,nolog,ctl:ruleRemoveById=942190
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100143,phase:1,pass,nolog,ctl:ruleRemoveById=942360
 EOF
   }
 }
