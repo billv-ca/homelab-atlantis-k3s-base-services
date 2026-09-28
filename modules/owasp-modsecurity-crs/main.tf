@@ -35,11 +35,12 @@ SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100137,p
 SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100138,phase:1,pass,nolog,ctl:ruleRemoveById=941100
 SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100139,phase:1,pass,nolog,ctl:ruleRemoveById=941160
 SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100140,phase:1,pass,nolog,ctl:ruleRemoveById=941180
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100141,phase:1,pass,nolog,ctl:ruleRemoveById=941390
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100142,phase:1,pass,nolog,ctl:ruleRemoveById=942140
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100143,phase:1,pass,nolog,ctl:ruleRemoveById=942151
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100144,phase:1,pass,nolog,ctl:ruleRemoveById=942190
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100145,phase:1,pass,nolog,ctl:ruleRemoveById=942360
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100141,phase:1,pass,nolog,ctl:ruleRemoveById=941190
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100142,phase:1,pass,nolog,ctl:ruleRemoveById=941390
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100143,phase:1,pass,nolog,ctl:ruleRemoveById=942140
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100144,phase:1,pass,nolog,ctl:ruleRemoveById=942151
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100145,phase:1,pass,nolog,ctl:ruleRemoveById=942190
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100146,phase:1,pass,nolog,ctl:ruleRemoveById=942360
 EOF
   }
 }
