@@ -67,6 +67,10 @@ module "owasp_modsecurity_crs" {
   source = "./modules/owasp-modsecurity-crs"
 }
 
+module "system_upgrade_controller" {
+  source = "./modules/system-upgrade-controller"
+}
+
 module "traefik_config" {
   source = "./modules/traefik-config"
 }
