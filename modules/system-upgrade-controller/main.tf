@@ -1,4 +1,8 @@
 resource "kubernetes_manifest" "customresourcedefinition_plans_upgrade_cattle_io" {
+  field_manager {
+      force_conflicts = true
+      name = "terraform"
+  }
   manifest = {
     "apiVersion" = "apiextensions.k8s.io/v1"
     "kind" = "CustomResourceDefinition"
