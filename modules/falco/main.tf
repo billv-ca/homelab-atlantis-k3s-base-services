@@ -43,7 +43,7 @@ customRules:
             condition: replace
 
         - list: known_drop_and_execute_containers
-          items: [docker.io/pihole/pihole]
+          items: [docker.io/pihole/pihole, docker.io/rancher/k3s-upgrade]
           override:
             items: append
 EOF
