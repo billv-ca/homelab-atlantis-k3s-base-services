@@ -26,42 +26,61 @@ SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq ocis.billv.ca" "id:100130,phase
 SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq ai.billv.ca" "id:100131,phase:1,pass,nolog,ctl:ruleRemoveById=943110"
 
 #Atlantis
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100132,phase:1,pass,nolog,ctl:ruleRemoveById=930120
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100133,phase:1,pass,nolog,ctl:ruleRemoveById=932235
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100134,phase:1,pass,nolog,ctl:ruleRemoveById=932140
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100135,phase:1,pass,nolog,ctl:ruleRemoveById=932230
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100136,phase:1,pass,nolog,ctl:ruleRemoveById=932250
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100137,phase:1,pass,nolog,ctl:ruleRemoveById=932370
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100138,phase:1,pass,nolog,ctl:ruleRemoveById=941100
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100139,phase:1,pass,nolog,ctl:ruleRemoveById=941160
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100140,phase:1,pass,nolog,ctl:ruleRemoveById=941180
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100141,phase:1,pass,nolog,ctl:ruleRemoveById=941190
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100142,phase:1,pass,nolog,ctl:ruleRemoveById=941370
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100143,phase:1,pass,nolog,ctl:ruleRemoveById=941390
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100144,phase:1,pass,nolog,ctl:ruleRemoveById=941400
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100145,phase:1,pass,nolog,ctl:ruleRemoveById=942140
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100146,phase:1,pass,nolog,ctl:ruleRemoveById=942151
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100147,phase:1,pass,nolog,ctl:ruleRemoveById=942190
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100148,phase:1,pass,nolog,ctl:ruleRemoveById=942360
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100132,phase:1,pass,nolog,ctl:ruleRemoveById=930120"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100133,phase:1,pass,nolog,ctl:ruleRemoveById=932235"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100134,phase:1,pass,nolog,ctl:ruleRemoveById=932140"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100135,phase:1,pass,nolog,ctl:ruleRemoveById=932230"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100136,phase:1,pass,nolog,ctl:ruleRemoveById=932250"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100137,phase:1,pass,nolog,ctl:ruleRemoveById=932370"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100138,phase:1,pass,nolog,ctl:ruleRemoveById=941100"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100139,phase:1,pass,nolog,ctl:ruleRemoveById=941160"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100140,phase:1,pass,nolog,ctl:ruleRemoveById=941180"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100141,phase:1,pass,nolog,ctl:ruleRemoveById=941190"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100142,phase:1,pass,nolog,ctl:ruleRemoveById=941370"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100143,phase:1,pass,nolog,ctl:ruleRemoveById=941390"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100144,phase:1,pass,nolog,ctl:ruleRemoveById=941400"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100145,phase:1,pass,nolog,ctl:ruleRemoveById=942140"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100146,phase:1,pass,nolog,ctl:ruleRemoveById=942151"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100147,phase:1,pass,nolog,ctl:ruleRemoveById=942190"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq atlantis.billv.ca" "id:100148,phase:1,pass,nolog,ctl:ruleRemoveById=942360"
 
 #Headlamp
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100149,phase:1,pass,nolog,ctl:ruleRemoveById=930120
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100150,phase:1,pass,nolog,ctl:ruleRemoveById=932235
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100151,phase:1,pass,nolog,ctl:ruleRemoveById=932140
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100152,phase:1,pass,nolog,ctl:ruleRemoveById=932230
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100153,phase:1,pass,nolog,ctl:ruleRemoveById=932250
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100154,phase:1,pass,nolog,ctl:ruleRemoveById=932370
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100155,phase:1,pass,nolog,ctl:ruleRemoveById=941100
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100156,phase:1,pass,nolog,ctl:ruleRemoveById=941160
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100157,phase:1,pass,nolog,ctl:ruleRemoveById=941180
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100158,phase:1,pass,nolog,ctl:ruleRemoveById=941190
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100159,phase:1,pass,nolog,ctl:ruleRemoveById=941370
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100160,phase:1,pass,nolog,ctl:ruleRemoveById=941390
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100161,phase:1,pass,nolog,ctl:ruleRemoveById=941400
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100162,phase:1,pass,nolog,ctl:ruleRemoveById=942140
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100163,phase:1,pass,nolog,ctl:ruleRemoveById=942151
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100164,phase:1,pass,nolog,ctl:ruleRemoveById=942190
-SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100165,phase:1,pass,nolog,ctl:ruleRemoveById=942360
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100149,phase:1,pass,nolog,ctl:ruleRemoveById=930120"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100150,phase:1,pass,nolog,ctl:ruleRemoveById=932235"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100151,phase:1,pass,nolog,ctl:ruleRemoveById=932140"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100152,phase:1,pass,nolog,ctl:ruleRemoveById=932230"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100153,phase:1,pass,nolog,ctl:ruleRemoveById=932250"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100154,phase:1,pass,nolog,ctl:ruleRemoveById=932370"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100155,phase:1,pass,nolog,ctl:ruleRemoveById=941100"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100156,phase:1,pass,nolog,ctl:ruleRemoveById=941160"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100157,phase:1,pass,nolog,ctl:ruleRemoveById=941180"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100158,phase:1,pass,nolog,ctl:ruleRemoveById=941190"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100159,phase:1,pass,nolog,ctl:ruleRemoveById=941370"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100160,phase:1,pass,nolog,ctl:ruleRemoveById=941390"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100161,phase:1,pass,nolog,ctl:ruleRemoveById=941400"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100162,phase:1,pass,nolog,ctl:ruleRemoveById=942140"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100163,phase:1,pass,nolog,ctl:ruleRemoveById=942151"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100164,phase:1,pass,nolog,ctl:ruleRemoveById=942190"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq kube.billv.ca" "id:100165,phase:1,pass,nolog,ctl:ruleRemoveById=942360"
+
+#Mealie
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100166,phase:1,pass,nolog,ctl:ruleRemoveById=930120"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100167,phase:1,pass,nolog,ctl:ruleRemoveById=932235"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100168,phase:1,pass,nolog,ctl:ruleRemoveById=932140"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100169,phase:1,pass,nolog,ctl:ruleRemoveById=932230"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100170,phase:1,pass,nolog,ctl:ruleRemoveById=932250"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100171,phase:1,pass,nolog,ctl:ruleRemoveById=932370"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100172,phase:1,pass,nolog,ctl:ruleRemoveById=941100"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100173,phase:1,pass,nolog,ctl:ruleRemoveById=941160"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100174,phase:1,pass,nolog,ctl:ruleRemoveById=941180"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100175,phase:1,pass,nolog,ctl:ruleRemoveById=941190"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100176,phase:1,pass,nolog,ctl:ruleRemoveById=941370"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100177,phase:1,pass,nolog,ctl:ruleRemoveById=941390"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100178,phase:1,pass,nolog,ctl:ruleRemoveById=941400"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100179,phase:1,pass,nolog,ctl:ruleRemoveById=942140"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100180,phase:1,pass,nolog,ctl:ruleRemoveById=942151"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100181,phase:1,pass,nolog,ctl:ruleRemoveById=942190"
+SecRule REQUEST_HEADERS:X-Forwarded-Host "@streq mealie.billv.ca" "id:100182,phase:1,pass,nolog,ctl:ruleRemoveById=942360"
 EOF
   }
 }
