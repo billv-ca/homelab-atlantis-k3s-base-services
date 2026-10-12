@@ -23,7 +23,7 @@ providers:
 priorityClassName: "system-cluster-critical"
 image:
     repository: "traefik"
-    tag: "v3.3.6"
+    tag: "v3.6.0"
 tolerations:
     - key: "CriticalAddonsOnly"
       operator: "Exists"
