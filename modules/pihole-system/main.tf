@@ -58,6 +58,10 @@ persistentVolumeClaim:
 maxUnavailable: 1
 
 dnsmasq:
+  customDnsEntries:
+    - server=/billv.ca/#
+    - address=/.billv.ca/10.206.60.1
+    - address=/assistant.home.billv.ca/10.206.60.1
   customSettings:
     - except-interface=nonexisting
   whitelist:
