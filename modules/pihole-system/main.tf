@@ -61,7 +61,7 @@ dnsmasq:
   customDnsEntries:
     - address=/*.billv.ca/10.206.60.1
     - address=/.home.billv.ca/10.206.60.1
-    - address=/mc.billv.ca/10.206.102.1
+    - address=/minecraft.billv.ca/10.206.102.1
   customSettings:
     - except-interface=nonexisting
   whitelist:
