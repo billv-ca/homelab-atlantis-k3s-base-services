@@ -13,7 +13,7 @@ resource "helm_release" "pihole" {
   name             = "pihole"
   repository       = "https://mojo2600.github.io/pihole-kubernetes/"
   chart            = "pihole"
-  version          = "2.38.0"
+  version          = "2.39.0"
   namespace        = "pihole-system"
   create_namespace = true
   values = [
@@ -61,6 +61,7 @@ dnsmasq:
   customDnsEntries:
     - address=/*.billv.ca/10.206.60.1
     - address=/.home.billv.ca/10.206.60.1
+    - address=/minecraft.billv.ca/10.206.102.1
   customSettings:
     - except-interface=nonexisting
   whitelist:
